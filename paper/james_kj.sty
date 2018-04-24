@@ -40,3 +40,10 @@
 
 \newcommand{\tp}{\!+\!} % Tight Plus, tighter kerning. Looks better in some regular expressions.
 
+
+%% Tikz Setup
+\usetikzlibrary{calc,patterns,angles,quotes}
+\tikzset{
+	pointer/.style={->, >= stealth, shorten <= 7 pt, shorten >= 2 pt},
+	wind/.style={pointer, shorten >= 0 pt, blue, shorten >= 2 pt}
+}

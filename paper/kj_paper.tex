@@ -10,9 +10,7 @@
 	\renewcommand{\meo}[1]{}
 \fi
 
-\tikzset{
-	pointer/.style={->, >= stealth, shorten <= 7 pt, shorten >= 2 pt}
-}
+
 
 \title{The Kutta--Joukowski Theorem}
 \date{\today}
@@ -23,19 +21,130 @@
 	\setcounter{y}{0}
 
 \begin{abstract}
-	This will be an abstract in the future. 
+	This paper will present, in full and with explanation, a derivation of the Kutta--Joukowski theorem.
+	Because even if the FAA will never let me fly, they can't stop me from studying.
 \end{abstract}
 
-\begin{tikzpicture}
-	\newcounter{scale}
-	\setcounter{scale}{4}
-	\draw[scale = \thescale] node [left=0.5 cm] {} plot file{../airfoils/NACA_0030.dat} -- cycle;
+\section{Introduction} % (fold)
+\label{sec:introduction}
+	The Kutta--Joukowski theorem deals with the lift provided by two--dimensional airfoils.
+	That is, we will deal with objects and fluid flows in the complex plane.
 
-	\draw [blue] (0.0, 0.0) to [out=0, in=180] coordinate[pos=0.1] (1) coordinate[pos=0.5] (2)  coordinate[pos=0.9] (3) (\thescale, 0);
-	\node [below left, blue] at (2) {Chord};
-	\draw[pointer] (-1, -1) -- node[near start, below]{Leading Edge} (0, 0);
-	\draw[pointer] (\thescale + 1, -1) -- node[near start, below]{Trailing Edge} (\thescale, 0);
-\end{tikzpicture}
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+			\newcount\scale
+			\advance\scale by 3
+			
+			\newcount\angle
+			\advance\angle by 0
+
+			\draw[scale = \the\scale, rotate = \the\angle, pattern = north east lines] plot file{../airfoils/NACA_0030.dat} -- cycle;
+
+			\draw [draw = none, rotate = \the\angle] (0, 0) to coordinate[pos=0] (LE) coordinate[pos=0.5] (mid)  coordinate[pos=1] (TE) (\the\scale, 0);
+
+			\newcount\wdist
+			\advance\wdist by -2
+
+			\newdimen\wspace
+			\advance\wspace by 2 pt
+
+			\newdimen\wgap
+			\advance\wgap by 5 pt
+
+			\draw[wind](\the\wdist, 0) to coordinate [pos = 0] (wind_start) (LE);
+			\draw[wind](TE) -- ($(TE) + (-\the\wdist, 0)$);
+
+
+			\coordinate(top_1) at (0.175\the\scale , 0.4\the\scale);
+			% \draw (top_1) circle(2 pt);
+
+			\coordinate(top_2) at ($(top_1) + (0.5, 0.15)$);
+			% \draw (top_2) circle(2 pt);
+
+			\coordinate(top_3) at ($(top_2) + (1, -0.075)$);
+			% \draw (top_3) circle(2 pt);
+
+			\coordinate(top_4) at ($(top_3) + (1, -0.23)$);
+			% \draw (top_4) circle(2 pt);
+
+			\coordinate(top_5) at ($(top_4) + (2, -0.09)$);
+			% \draw (top_5) circle(2 pt);
+
+			\draw[wind]($(wind_start)+(0, \the\wgap )$) to [out = 0, in = 190] (top_1);
+			\draw[wind, shorten <= 0 pt](top_1) [out = 10, in = 190] to (top_2);
+			\draw[wind, shorten <= 0 pt](top_2) [out = 10, in = 170] to (top_3);
+			\draw[wind, shorten <= 0 pt](top_3) [out = -10, in = 170] to (top_4);
+			\draw[wind, shorten <= 0 pt](top_4) [out = -10, in = 180] to (top_5);
+
+
+			\coordinate(botm_1) at (0.175\the\scale , -0.4\the\scale);
+			% \draw (botm_1) circle(2 pt);
+
+			\coordinate(botm_2) at ($(botm_1) + (0.5, -0.15)$);
+			% \draw (botm_2) circle(2 pt);
+
+			\coordinate(botm_3) at ($(botm_2) + (1, 0.075)$);
+			% \draw (botm_3) circle(2 pt);
+
+			\coordinate(botm_4) at ($(botm_3) + (1, 0.23)$);
+			% \draw (botm_4) circle(2 pt);
+
+			\coordinate(botm_5) at ($(botm_4) + (2, 0.09)$);
+			% \draw (botm_5) circle(2 pt);
+
+			\draw[wind]($(wind_start)+(0, -\the\wgap )$) to [out = 0, in = 170] (botm_1);
+			\draw[wind, shorten <= 0 pt](botm_1) [out = -10, in = 170] to (botm_2);
+			\draw[wind, shorten <= 0 pt](botm_2) [out = -10, in = 190] to (botm_3);
+			\draw[wind, shorten <= 0 pt](botm_3) [out = 10, in = 190] to (botm_4);
+			\draw[wind, shorten <= 0 pt](botm_4) [out = 10, in = 180] to (botm_5);
+
+
+			% \draw[pointer, shorten >= 0 pt, red, shorten >= 2 pt, in=180, out = 0] (\the\wdist, 0.6) to coordinate[pos = 0.99](a) ($(wind)+(0, 0.6)$);
+			% \draw[pointer, shorten >= 0 pt, red, shorten >= 2 pt, in=180, out = 0] ($(a)+(\the\wspace, 0)$) to coordinate[pos = 0.7](ab) ($(a)+(-\the\wdist, -0.15)$);
+
+			% \draw[pointer, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (\the\wdist, 0.3) -- ($(wind)+(0, 0.3)$);
+
+			% \draw[pointer, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (\the\wdist, -0.3) -- ($(wind)+(0, -0.3)$);
+			% \draw[pointer, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (\the\wdist, -0.6) -- ($(wind)+(0, -0.6)$);
+
+
+
+		\end{tikzpicture}
+		\caption{Hi}
+	\end{figure}
+
+
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+			\newcount\scale
+			\advance\scale by 3
+			
+			\newcount\angle
+			\advance\angle by -30
+
+			\draw[scale = \the\scale, rotate = \the\angle] plot file{../airfoils/NACA_0030.dat} -- cycle;
+
+			\draw [ rotate = \the\angle] (0, 0) to coordinate[pos=0] (LE) coordinate[pos=0.5] (mid)  coordinate[pos=1] (TE) (\the\scale, 0);
+			% \node [below left, rotate = \the\angle] at (mid) [yshift = 3 pt] {Chord};
+			\node [below left] at (mid) [yshift = 5 pt] {$c$};
+
+			\draw[dashed, rotate = \the\angle] (LE) -- ++(-3, 0) node (chord){};
+			\draw[pointer] (LE) + (0.5, 1)     -- node[near start, above]{Leading Edge} (LE);
+			\draw[pointer] (\the\scale + 1, -1) -- node[near start, above]{Trailing Edge} (TE);
+
+			\draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt] (-3, 0) to coordinate [pos = 0.99] (wind) node [near start, above]{$V_\infty$} (LE);
+			\pic [draw,<-, "$\alpha$", angle eccentricity=1.5, angle radius = 20 pt] {angle = chord--LE--wind};
+
+			% \draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (-3, -0.3) -- ($(wind)+(0, -0.3)$);
+			% \draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (-3, -0.6) -- ($(wind)+(0, -0.6)$);
+
+
+		\end{tikzpicture}
+		\caption{Hi}
+	\end{figure}
+% section introduction (end)
 
 \clearpage
 \nocite{*}
