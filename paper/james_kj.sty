@@ -15,6 +15,8 @@
 \usepackage{amsfonts}
 \usepackage{tikz}
 \usepackage{float}
+\usepackage{enumitem}
+\usepackage{caption}
 \usepackage[plainpages=false,pdfpagelabels, hidelinks]{hyperref}
 
 
@@ -40,10 +42,39 @@
 
 \newcommand{\tp}{\!+\!} % Tight Plus, tighter kerning. Looks better in some regular expressions.
 
+\newcommand{\C}{\ensuremath{\mathbf{C}}\xspace} % for the complex numbers
+
+\DeclareMathOperator*{\intt}{int}
+\DeclareMathOperator*{\ext}{ext}
+
+
+\DeclareMathOperator*{\re}{Re}
+\DeclareMathOperator*{\im}{Im}
+
 
 %% Tikz Setup
-\usetikzlibrary{calc,patterns,angles,quotes}
+\usetikzlibrary{calc,patterns,angles,quotes,decorations.markings}
 \tikzset{
 	pointer/.style={->, >= stealth, shorten <= 7 pt, shorten >= 2 pt},
-	wind/.style={pointer, shorten >= 0 pt, blue, shorten >= 2 pt}
+	wind/.style={pointer, shorten >= 0 pt, blue, shorten >= 2 pt},
+	tangent/.style={
+			decoration={
+				markings,% switch on markings
+				mark=
+					at position #1
+					with
+					{
+						\coordinate (tangent point-\pgfkeysvalueof{/pgf/decoration/mark info/sequence number}) at (0pt,0pt);
+						\coordinate (tangent unit vector-\pgfkeysvalueof{/pgf/decoration/mark info/sequence number}) at (1,0pt);
+						\coordinate (tangent orthogonal unit vector-\pgfkeysvalueof{/pgf/decoration/mark info/sequence number}) at (0pt,1);
+					}
+			},
+			postaction=decorate
+		},
+		use tangent/.style={
+			shift=(tangent point-#1),
+			x=(tangent unit vector-#1),
+			y=(tangent orthogonal unit vector-#1)
+		},
+		use tangent/.default=1
 }

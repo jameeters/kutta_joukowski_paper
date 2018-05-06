@@ -10,7 +10,7 @@
 	\renewcommand{\meo}[1]{}
 \fi
 
-
+\newcommand{\C}{\ensuremath{\mathbf{C}}\xspace}
 
 \title{The Kutta--Joukowski Theorem}
 \date{\today}
@@ -21,14 +21,129 @@
 	\setcounter{y}{0}
 
 \begin{abstract}
+	The Kutta--Joukowski theorem is an elegant result that characterizes the lifting force produced by an object in a fluid flow. 
+	It is applicable to the analysis to airfoils at low speeds.
 	This paper will present, in full and with explanation, a derivation of the Kutta--Joukowski theorem.
-	Because even if the FAA will never let me fly, they can't stop me from studying.
+	This will be prefaced by an introduction to the use of complex analysis in analyzing problems of fluid dynamics.
 \end{abstract}
 
+\setlength{\parindent}{0 pt}
+\setlength{\parskip}{1 em}
+
+\section{Flows} % (fold)
+\label{sec:flows}
+	We will be using techniques from complex analysis to examine fluid flow in two dimensions.
+	Imagine a 3-dimensional fluid flow which is identical in some sequence of parallel planes.
+	We use the complex plane as a cross-sectional slice of this flow, examining one of those planes.
+
+	We assume that the flow in in a \textit{steady-state}: that the flow does not change over time.
+	We also assume that the fluid is \textit{incompressible}: that the density of the fluid is the same throughout the plane.
+	In terms of aerodynamics, this is equivalent to a restriction to low speed regimes.
+
+	\begin{definition}[Flow]
+		A \textit{flow} is described by a function $f = u + iv$, which gives the velocity (speed and direction) of a particle of fluid at each point in the plane.
+		If $z = x + iy$, then $u(x, y)$ gives the speed of a particle in the x-direction, or along the real axis, at point $z$, and $v(x, y)$ gives its speed in the y-direction (or along the imaginary axis).
+	\end{definition}
+
+	\paragraph*{Curves and Flows}
+	Now we will introduce a framework for the discussion of curves immersed in the flow.
+	Let $\gamma$ be a piecewise smooth Jordan curve of length $l$ described by $\gamma = \{ z(s) \mid z(s) = x(s) + i y(s), \ 0 \leq s \leq l \}$.
+	Then the number $\tau(s) = z'(s) = \frac{dx}{ds} + i \frac{dy}{ds}$ is of unit modulus and tangent to $\gamma$ at $z(s)$.
+	The number $n(s) = \frac{1}{i} z'(s) = \frac{dy}{ds} - i \frac{dx}{ds}$ is of unit modulus and normal to $\gamma$ at $z(s)$.
+
+	Now we can describe the components of $f$ tangent and normal to $\gamma$:
+	\[
+		f_\tau = u \frac{dx}{ds} + v \frac{dy}{ds}
+	\]
+	gives the component of the flow tangent to $\gamma$ at each point along its length, while
+	\[
+		f_n = -v \frac{dx}{ds} + u \frac{dy}{ds}
+	\]
+	gives the component of the flow normal to $\gamma$.
+	See Figure~\ref{fig:flow_tangent_and_normal}
+
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[>=stealth]
+			\coordinate (z) at (1, 0.7);
+			% \draw[tangent=0.5] plot [smooth, tension = 1] coordinates {(0, 0) (z) (3, -0.3)} node[below] {$\gamma$};
+			\draw[tangent=0.361] (0, 0) to[out = 10, in = 180]  (z) to[out = -10, in = 160] (3, -0.3) node[below] {$\gamma$};
+			\filldraw (z) circle (1 pt) node[below] {$z$};
+			\coordinate (fz) at ($(z)+(1, 1)$);
+			\draw[->, use tangent] (0, 0) -- (1.5,0) node [right] {$f_\tau$};
+			\draw[->, use tangent] (0, 0) -- (0, 1)  node [left]  {$f_n$};
+			\draw[->, thick, use tangent] (0, 0) -- (1.5, 1) node[right] {$f$};
+		\end{tikzpicture}
+		\captionsetup{width = 0.5 \textwidth}
+		\caption{A flow $f$, with components tangent and normal to a curve $\gamma$.}
+		\label{fig:flow_tangent_and_normal}
+	\end{figure}
+
+	\begin{definition}[Sourceless / Sinkless]
+		We call a flow \textit{sourceless} in a domain $G$ if no fluid is created at any point in $G$, and \textit{sinkless} if no fluid is destroyed.
+		(For brevity, we will use ``sourceless'' to indicate both of these properties.)
+
+		Let $\gamma$ be a closed, piecewise smooth Jordan curve in $G$.
+		Then $f$ is sourceless if 
+		\[
+			\int_\gamma f_n(z) \ ds = 0
+		\]
+		for all $\gamma$ in $G$.
+	\end{definition}
+
+	\begin{definition}[Irrotational]
+		A flow is referred to as \textit{irrotational} if it contains no vortices or eddies.
+		Let $\gamma$ be a closed piecewise smooth curve in $G$.
+		The flow $f$ is irrotational in $G$ if 
+		\[
+			\int_\gamma f_\tau \ ds = 0
+		\]
+		for all $\gamma$ in $G$.
+		That is, there is no net movement of fluid along the edge of any closed curve in $G$.
+	\end{definition}
+
+
+	\begin{theorem}
+		Let a flow $f$ be sourceless and irrotational on a domain $G$.
+		Then the conjugate $\bar f$ of this flow is analytic on $G$.
+	\end{theorem}
+	\begin{proof}
+		Now consider the conjugate of the flow function: $\bar f = u - i v$.
+		For any curve $\gamma$, 
+		\begin{align*}
+			\int_\gamma \bar f \ dz &= \int_\gamma (u - iv) (dx + i dy) \\
+			&= \int_\gamma u\ dx + v\ dy + i \int_\gamma -v \ dx + u \ dy\\
+			&= \int_\gamma f_\tau \ ds + i \int_\gamma f_n \ ds
+		\end{align*}
+
+		So we know that 
+		\[
+			\re \int_\gamma \bar f \ dz = 0 \text{ when $f$ is irrotational}
+		\]
+		and
+		\[
+			\im \int_\gamma \bar f \ dz = 0 \text{ when $f$ is sourceless}
+		\]
+		By applying Green's theorem, we find that 
+		\begin{align*}
+			\re \int_\gamma \bar f \ dz &= \iint_{\intt \gamma} \left( \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y} \right) dx\ dy 
+			\quad = 0 \quad \text{ when $f$ is irrotational}\\[1 ex]
+			\im \int_\gamma \bar f \ dz &= \iint_{\intt \gamma} \left( \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} \right) dx\ dy 
+			\quad = 0 \quad \text{ when $f$ is sourceless}
+		\end{align*}
+
+		Thus we know that on the interior of every $\gamma$, 
+		\begin{align*}
+			\frac{\partial u}{\partial y} - \frac{\partial v}{\partial x} &= 0 \implies \frac{\partial u}{\partial x} = \frac{\partial v}{\partial y} & &\text{when $f$ is irrotational} \\
+			\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} &= 0 \implies \frac{\partial u}{\partial x} = - \frac{\partial v}{\partial y} & &\text{when $f$ is sourceless} \\
+		\end{align*}
+	\end{proof}
+	
+% section flows (end)
+
+\clearpage
 \section{Introduction} % (fold)
 \label{sec:introduction}
-	The Kutta--Joukowski theorem deals with the lift provided by two--dimensional airfoils.
-	That is, we will deal with objects and fluid flows in the complex plane.
 
 	\begin{figure}[H]
 		\centering
@@ -39,7 +154,7 @@
 			\newcount\angle
 			\advance\angle by 0
 
-			\draw[scale = \the\scale, rotate = \the\angle, pattern = north east lines] plot file{../airfoils/NACA_0030.dat} -- cycle;
+			\draw[scale = \the\scale, rotate = \the\angle, pattern = north east lines, pattern color = gray] plot file{../airfoils/NACA_0030.dat} -- cycle;
 
 			\draw [draw = none, rotate = \the\angle] (0, 0) to coordinate[pos=0] (LE) coordinate[pos=0.5] (mid)  coordinate[pos=1] (TE) (\the\scale, 0);
 
@@ -57,19 +172,10 @@
 
 
 			\coordinate(top_1) at (0.175\the\scale , 0.4\the\scale);
-			% \draw (top_1) circle(2 pt);
-
 			\coordinate(top_2) at ($(top_1) + (0.5, 0.15)$);
-			% \draw (top_2) circle(2 pt);
-
 			\coordinate(top_3) at ($(top_2) + (1, -0.075)$);
-			% \draw (top_3) circle(2 pt);
-
 			\coordinate(top_4) at ($(top_3) + (1, -0.23)$);
-			% \draw (top_4) circle(2 pt);
-
-			\coordinate(top_5) at ($(top_4) + (2, -0.09)$);
-			% \draw (top_5) circle(2 pt);
+			\coordinate(top_5) at ($(top_4) + (2.1, -0.09)$);
 
 			\draw[wind]($(wind_start)+(0, \the\wgap )$) to [out = 0, in = 190] (top_1);
 			\draw[wind, shorten <= 0 pt](top_1) [out = 10, in = 190] to (top_2);
@@ -79,19 +185,10 @@
 
 
 			\coordinate(botm_1) at (0.175\the\scale , -0.4\the\scale);
-			% \draw (botm_1) circle(2 pt);
-
 			\coordinate(botm_2) at ($(botm_1) + (0.5, -0.15)$);
-			% \draw (botm_2) circle(2 pt);
-
 			\coordinate(botm_3) at ($(botm_2) + (1, 0.075)$);
-			% \draw (botm_3) circle(2 pt);
-
 			\coordinate(botm_4) at ($(botm_3) + (1, 0.23)$);
-			% \draw (botm_4) circle(2 pt);
-
-			\coordinate(botm_5) at ($(botm_4) + (2, 0.09)$);
-			% \draw (botm_5) circle(2 pt);
+			\coordinate(botm_5) at ($(botm_4) + (2.1, 0.09)$);
 
 			\draw[wind]($(wind_start)+(0, -\the\wgap )$) to [out = 0, in = 170] (botm_1);
 			\draw[wind, shorten <= 0 pt](botm_1) [out = -10, in = 170] to (botm_2);
@@ -99,16 +196,32 @@
 			\draw[wind, shorten <= 0 pt](botm_3) [out = 10, in = 190] to (botm_4);
 			\draw[wind, shorten <= 0 pt](botm_4) [out = 10, in = 180] to (botm_5);
 
+			\coordinate(top_22) at ($(top_2) + (0, \the\wgap)$);
+			\coordinate(top_24) at ($(top_4) + (0, \the\wgap)$);
+			\coordinate(top_25) at ($(top_5) + (-0.2, \the\wgap)$);
 
-			% \draw[pointer, shorten >= 0 pt, red, shorten >= 2 pt, in=180, out = 0] (\the\wdist, 0.6) to coordinate[pos = 0.99](a) ($(wind)+(0, 0.6)$);
-			% \draw[pointer, shorten >= 0 pt, red, shorten >= 2 pt, in=180, out = 0] ($(a)+(\the\wspace, 0)$) to coordinate[pos = 0.7](ab) ($(a)+(-\the\wdist, -0.15)$);
+			\draw[wind]                 ($(wind_start)+(0, \the\wgap + \the\wgap )$) to [out = 0, in = 190] (top_22);
+			\draw[wind, shorten <= 0 pt](top_22)                                     to [out = 10, in = 170] (top_24);
+			\draw[wind, shorten <= 0 pt](top_24)                                     to [out = -10, in = 180] (top_25);
 
-			% \draw[pointer, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (\the\wdist, 0.3) -- ($(wind)+(0, 0.3)$);
+			\coordinate(botm_22) at ($(botm_2) + (0, -\the\wgap)$);
+			\coordinate(botm_24) at ($(botm_4) + (0, -\the\wgap)$);
+			\coordinate(botm_25) at ($(botm_5) + (-0.2, -\the\wgap)$);
 
-			% \draw[pointer, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (\the\wdist, -0.3) -- ($(wind)+(0, -0.3)$);
-			% \draw[pointer, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (\the\wdist, -0.6) -- ($(wind)+(0, -0.6)$);
+			\draw[wind]($(wind_start)+(0, -\the\wgap - \the\wgap )$) to [out = 0, in = 170] (botm_22);
+			\draw[wind, shorten <= 0 pt](botm_22)                                     to [out = -10, in = 190] (botm_24);
+			\draw[wind, shorten <= 0 pt](botm_24)                                     to [out = 10, in = 180] (botm_25);
 
+			\draw[rounded corners = 5 pt, draw = gray] 
+			(wind_start) -- ($(wind_start) + (0.5, 1)$) -- (0, 1.3) -- (1, 1.4) -- (2.5, 1.3) --(4, 1) -- (5.75, 0.5)
+			-- (6, 0) --
+			(5.75, -0.5) -- (4, -1) -- (2.5, -1.3) -- (1, -1.4) -- (0, -1.3) -- ($(wind_start) + (0.5, -1)$) -- cycle;
 
+			\draw[draw = none, pattern = north east lines, pattern color = gray]
+			(wind_start) -- ($(wind_start) + (0.5, 1)$) -- (0,1.3) -- (1, 1.4) -- (2.5, 1.3) --(4, 1) -- (5.75, 0.5) -- (6, 0) -- (6, 2) -- ($(wind_start) + (0, 2)$) -- cycle;
+
+			\draw[draw = none, pattern = north east lines, pattern color = gray] 
+			(wind_start) -- ($(wind_start) + (0.5, -1)$) -- (0, -1.3) -- (1, -1.4) -- (2.5, -1.3) --(4, -1) -- (5.75, -0.5) -- (6, 0)-- (6, -2) -- ($(wind_start) + (0, -2)$) -- cycle;
 
 		\end{tikzpicture}
 		\caption{Hi}
@@ -145,6 +258,7 @@
 		\caption{Hi}
 	\end{figure}
 % section introduction (end)
+
 
 \clearpage
 \nocite{*}
