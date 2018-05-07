@@ -10,15 +10,13 @@
 	\renewcommand{\meo}[1]{}
 \fi
 
-\newcommand{\C}{\ensuremath{\mathbf{C}}\xspace}
-
 \title{The Kutta--Joukowski Theorem}
 \date{\today}
 \author{James McFeeters}
 \begin{document}
 	\maketitle
-	\newcounter{y}
-	\setcounter{y}{0}
+	% \newcounter{y}
+	% \setcounter{y}{0}
 
 \begin{abstract}
 	The Kutta--Joukowski theorem is an elegant result that characterizes the lifting force produced by an object in a fluid flow. 
@@ -38,7 +36,7 @@
 
 	We assume that the flow in in a \textit{steady-state}: that the flow does not change over time.
 	We also assume that the fluid is \textit{incompressible}: that the density of the fluid is the same throughout the plane.
-	In terms of aerodynamics, this is equivalent to a restriction to low speed regimes.
+	In terms of aerodynamics, this is equivalent to a restriction to subsonic speed regimes.
 
 	\begin{definition}[Flow]
 		A \textit{flow} is described by a function $f = u + iv$, which gives the velocity (speed and direction) of a particle of fluid at each point in the plane.
@@ -112,7 +110,7 @@
 		For any curve $\gamma$, 
 		\begin{align*}
 			\int_\gamma \bar f \ dz &= \int_\gamma (u - iv) (dx + i dy) \\
-			&= \int_\gamma u\ dx + v\ dy + i \int_\gamma -v \ dx + u \ dy\\
+			&= \int_\gamma u\> dx + v\> dy \ + \ i \! \int_\gamma -v \> dx + u \> dy\\
 			&= \int_\gamma f_\tau \ ds + i \int_\gamma f_n \ ds
 		\end{align*}
 
@@ -135,15 +133,104 @@
 		Thus we know that on the interior of every $\gamma$, 
 		\begin{align*}
 			\frac{\partial u}{\partial y} - \frac{\partial v}{\partial x} &= 0 \implies \frac{\partial u}{\partial x} = \frac{\partial v}{\partial y} & &\text{when $f$ is irrotational} \\
+			\text{and}\hspace{5 em}&\\
 			\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} &= 0 \implies \frac{\partial u}{\partial x} = - \frac{\partial v}{\partial y} & &\text{when $f$ is sourceless} \\
 		\end{align*}
+		Thus $\bar f$ satisfies the Cauchy--Riemann equations in $G$.
 	\end{proof}
-	
+
+	Since $\bar f$ is an analytic function, we know by the fundamental theorem of calculus that it must be the derivative of some analytic function.
+	We will see that this function has beautiful properties.
 % section flows (end)
 
-\clearpage
-\section{Introduction} % (fold)
-\label{sec:introduction}
+\section{The Complex Potential} % (fold)
+	\label{sec:complex_potential}
+
+	\begin{definition}[Complex Potential]
+	\label{def:complex_potential}
+		Let $f$ be a sourceless and irrotational flow in a simply connected domain $G$.
+		The \textit{complex potential} of the flow is the function $F$ such that:
+		\[
+			F'(z) = \bar f(z) \qquad \text{or} \qquad F(z) = \int_{z_0} ^z \bar f \ ds
+		\]
+		where $z_0$ is some fixed point in $G$.
+	\end{definition}
+
+	\begin{theorem}
+		Given a sourceless and irrotational flow in a domain $G$ there exists a complex potential $F$ satisfying definition~\ref{def:complex_potential}.
+	\end{theorem}
+	\begin{proof}
+		Let $f$ be as specified in definition~\ref{def:complex_potential}.
+
+		We know that the integral
+		\[
+			\int_{z_0}^z \bar f \ ds = \int_{z_0}^z u\> dx + v\> dy \ + \ i \! \int_{z_0}^z -v \> dx + u \> dy
+		\]
+		is independent of path.
+		Thus we know that the differential forms $u\> dx + v\> dy$ and $-v\> dx + u\> dy$ are exact.
+		That is, there exist real functions $\phi$ and $\psi$ of two real variables such that 
+		\begin{align*}
+			d \phi &= u\> dx + v\> dy \\
+			\text{and}\qquad &\\
+			d \psi &= -v\> dx + u\> dy \\
+		\end{align*}
+		This implies the following:
+		\begin{alignat*}{2}
+			u &= \frac{\partial \phi}{\partial x},  \qquad	& v &= \frac{\partial \phi}{\partial y} \\[1 em]
+			-v &= \frac{\partial \psi}{\partial x}, \qquad	& u &= \frac{\partial \psi}{\partial y} \\
+		\end{alignat*}
+		So that the functions $\phi$ and $\psi$ satisfy the Cauchy--Riemann equations.
+		Thus we define 
+		\[
+			F = \phi + i \psi
+		\]
+		which implies
+		\[
+			F' = \frac{\partial \phi}{\partial x} + i \frac{\partial \psi}{\partial x} = u - iv 
+		\]
+		Thus $F$ is analytic on $G$, and satisfies the definition of the complex potential.
+	\end{proof}
+
+	\begin{remark}
+		The proof demonstrates that given a flow we may find its complex potential, but it also implies the converse.
+		Given a complex potential $F$ analytic on a domain $G$, we may find a sourceless and irrotational flow function on $G$.
+		This fact is key to the most beautiful properties of our model of fluid motion.
+	\end{remark}
+
+
+% section complex_potential (end)
+
+\section{Streamlines} % (fold)
+\label{sec:streamlines}
+
+	Before we can describe streamlines, we must introduce a simple term:\
+	\begin{definition}[Level Curve]
+		Let $G$ be a domain and let $q$ be a real-valued function on $G$.
+		Given a constant $k$, the set 
+		\[
+			\{ z \in G \mid q(z) = k \}
+		\]
+		is called a \textit{level curve} of $q$.
+	\end{definition}
+
+	\begin{definition}(Streamlines and Equipotentials)
+		Let $F = \phi + i \psi$ be a complex potential.
+
+		The function $\phi$ is referred to as the \textit{velocity potential}, because its partial derivatives give the horizontal and vertical components of the flow function.
+		The level curves 
+		\[
+			\{ z \in G \mid \phi(z) = \mathrm{const.} \}
+		\]
+		are called equipotentials, because they describe lines of constant potential velocity.
+
+		The function $\psi$ is called the \textit{stream function} because it describes the paths followed by particles in the flow.
+		The level curves 
+		\[
+			\{ z \in G \mid \psi(z) = \mathrm{const.} \}
+		\]
+		are called \textit{streamlines} of the flow $f$.
+		These lines give the possible paths for a particle in the flow.
+	\end{definition}
 
 	\begin{figure}[H]
 		\centering
@@ -154,7 +241,7 @@
 			\newcount\angle
 			\advance\angle by 0
 
-			\draw[scale = \the\scale, rotate = \the\angle, pattern = north east lines, pattern color = gray] plot file{../airfoils/NACA_0030.dat} -- cycle;
+			\draw[scale = \the\scale, rotate = \the\angle, fill = lightgray] plot file{../airfoils/NACA_0030.dat} -- cycle;
 
 			\draw [draw = none, rotate = \the\angle] (0, 0) to coordinate[pos=0] (LE) coordinate[pos=0.5] (mid)  coordinate[pos=1] (TE) (\the\scale, 0);
 
@@ -165,11 +252,10 @@
 			\advance\wspace by 2 pt
 
 			\newdimen\wgap
-			\advance\wgap by 5 pt
+			\advance\wgap by 10 pt
 
-			\draw[wind](\the\wdist, 0) to coordinate [pos = 0] (wind_start) (LE);
-			\draw[wind](TE) -- ($(TE) + (-\the\wdist, 0)$);
-
+			\draw[draw = none](\the\wdist, 0) to coordinate [pos = 0] (wind_start) (LE);
+			\draw[draw = none](TE) -- ($(TE) + (-\the\wdist, 0)$);
 
 			\coordinate(top_1) at (0.175\the\scale , 0.4\the\scale);
 			\coordinate(top_2) at ($(top_1) + (0.5, 0.15)$);
@@ -211,58 +297,162 @@
 			\draw[wind]($(wind_start)+(0, -\the\wgap - \the\wgap )$) to [out = 0, in = 170] (botm_22);
 			\draw[wind, shorten <= 0 pt](botm_22)                                     to [out = -10, in = 190] (botm_24);
 			\draw[wind, shorten <= 0 pt](botm_24)                                     to [out = 10, in = 180] (botm_25);
-
-			\draw[rounded corners = 5 pt, draw = gray] 
-			(wind_start) -- ($(wind_start) + (0.5, 1)$) -- (0, 1.3) -- (1, 1.4) -- (2.5, 1.3) --(4, 1) -- (5.75, 0.5)
-			-- (6, 0) --
-			(5.75, -0.5) -- (4, -1) -- (2.5, -1.3) -- (1, -1.4) -- (0, -1.3) -- ($(wind_start) + (0.5, -1)$) -- cycle;
-
-			\draw[draw = none, pattern = north east lines, pattern color = gray]
-			(wind_start) -- ($(wind_start) + (0.5, 1)$) -- (0,1.3) -- (1, 1.4) -- (2.5, 1.3) --(4, 1) -- (5.75, 0.5) -- (6, 0) -- (6, 2) -- ($(wind_start) + (0, 2)$) -- cycle;
-
-			\draw[draw = none, pattern = north east lines, pattern color = gray] 
-			(wind_start) -- ($(wind_start) + (0.5, -1)$) -- (0, -1.3) -- (1, -1.4) -- (2.5, -1.3) --(4, -1) -- (5.75, -0.5) -- (6, 0)-- (6, -2) -- ($(wind_start) + (0, -2)$) -- cycle;
-
 		\end{tikzpicture}
-		\caption{Hi}
+		\captionsetup{width = 0.5 \textwidth}
+		\caption{
+			Streamlines around an object in a flow.
+			Every particle follows a streamline, no particle ever crosses a streamline.
+		}
+		\label{fig:streamlines}
 	\end{figure}
 
+	Since a streamline is a curve along which $\psi$ is constant, $\psi'$ must be uniformly zero along a streamline.
+	That is, along a streamline:
+	\begin{align*}
+		\frac{\partial \psi}{\partial x}dx + \frac{\partial \psi}{\partial y}dy &= 0 \\
+		-v\> dx  + u\> dy &= 0 \\
+		f_n &= 0
+	\end{align*}
+	Thus we find that there cannot be any flow normal to a streamline, implying that along a streamline $f = f_\tau$ the flow is always tangent to a streamline.
 
-	\begin{figure}[H]
-		\centering
-		\begin{tikzpicture}
-			\newcount\scale
-			\advance\scale by 3
-			
-			\newcount\angle
-			\advance\angle by -30
+	By similar reasoning, we may find that the flow is always normal to an equipotential, meaning that equipotentials and streamlines are everywhere orthogonal to each other.
 
-			\draw[scale = \the\scale, rotate = \the\angle] plot file{../airfoils/NACA_0030.dat} -- cycle;
+	Consider the object in the flow in Figure~\ref{fig:streamlines}.
+	Clearly its boundary is impermeable to the fluid --- there is no flow across its boundary at any point.
+	Thus the boundary of this object must be a streamline of the flow.
+	This means that given the streamlines of a flow, one may find a stream function, and by its conjugate harmonic function, may complete the complex potential whose derivative will give the original flow function.
 
-			\draw [ rotate = \the\angle] (0, 0) to coordinate[pos=0] (LE) coordinate[pos=0.5] (mid)  coordinate[pos=1] (TE) (\the\scale, 0);
-			% \node [below left, rotate = \the\angle] at (mid) [yshift = 3 pt] {Chord};
-			\node [below left] at (mid) [yshift = 5 pt] {$c$};
+	This is a powerful fact from a computational standpoint.
+	Given a model in a wind tunnel, measuring the wind speed at every point around our model would be work-intensive, and would probably disrupt the flow, leading to inaccurate results.
+	It is easy, on the other hand, to release smoke into the flow, and thereby track the motion of the air and determine the streamlines by careful observation.
 
-			\draw[dashed, rotate = \the\angle] (LE) -- ++(-3, 0) node (chord){};
-			\draw[pointer] (LE) + (0.5, 1)     -- node[near start, above]{Leading Edge} (LE);
-			\draw[pointer] (\the\scale + 1, -1) -- node[near start, above]{Trailing Edge} (TE);
-
-			\draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt] (-3, 0) to coordinate [pos = 0.99] (wind) node [near start, above]{$V_\infty$} (LE);
-			\pic [draw,<-, "$\alpha$", angle eccentricity=1.5, angle radius = 20 pt] {angle = chord--LE--wind};
-
-			% \draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (-3, -0.3) -- ($(wind)+(0, -0.3)$);
-			% \draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (-3, -0.6) -- ($(wind)+(0, -0.6)$);
+	
 
 
-		\end{tikzpicture}
-		\caption{Hi}
-	\end{figure}
-% section introduction (end)
+	
 
+% section streamlines (end)
 
 \clearpage
 \nocite{*}
 \bibliographystyle{plainnat}
 \bibliography{kj_references}
+
+
+
+\clearpage
+\rule{\textwidth}{5 pt}
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\newcount\scale
+		\advance\scale by 3
+		
+		\newcount\angle
+		\advance\angle by 0
+
+		\draw[scale = \the\scale, rotate = \the\angle, fill = lightgray] plot file{../airfoils/NACA_0030.dat} -- cycle;
+
+		\draw [draw = none, rotate = \the\angle] (0, 0) to coordinate[pos=0] (LE) coordinate[pos=0.5] (mid)  coordinate[pos=1] (TE) (\the\scale, 0);
+
+		\newcount\wdist
+		\advance\wdist by -2
+
+		\newdimen\wspace
+		\advance\wspace by 2 pt
+
+		\newdimen\wgap
+		\advance\wgap by 10 pt
+
+		\draw[wind](\the\wdist, 0) to coordinate [pos = 0] (wind_start) (LE);
+		\draw[wind](TE) -- ($(TE) + (-\the\wdist, 0)$);
+
+
+		\coordinate(top_1) at (0.175\the\scale , 0.4\the\scale);
+		\coordinate(top_2) at ($(top_1) + (0.5, 0.15)$);
+		\coordinate(top_3) at ($(top_2) + (1, -0.075)$);
+		\coordinate(top_4) at ($(top_3) + (1, -0.23)$);
+		\coordinate(top_5) at ($(top_4) + (2.1, -0.09)$);
+
+		\draw[wind]($(wind_start)+(0, \the\wgap )$) to [out = 0, in = 190] (top_1);
+		\draw[wind, shorten <= 0 pt](top_1) [out = 10, in = 190] to (top_2);
+		\draw[wind, shorten <= 0 pt](top_2) [out = 10, in = 170] to (top_3);
+		\draw[wind, shorten <= 0 pt](top_3) [out = -10, in = 170] to (top_4);
+		\draw[wind, shorten <= 0 pt](top_4) [out = -10, in = 180] to (top_5);
+
+
+		\coordinate(botm_1) at (0.175\the\scale , -0.4\the\scale);
+		\coordinate(botm_2) at ($(botm_1) + (0.5, -0.15)$);
+		\coordinate(botm_3) at ($(botm_2) + (1, 0.075)$);
+		\coordinate(botm_4) at ($(botm_3) + (1, 0.23)$);
+		\coordinate(botm_5) at ($(botm_4) + (2.1, 0.09)$);
+
+		\draw[wind]($(wind_start)+(0, -\the\wgap )$) to [out = 0, in = 170] (botm_1);
+		\draw[wind, shorten <= 0 pt](botm_1) [out = -10, in = 170] to (botm_2);
+		\draw[wind, shorten <= 0 pt](botm_2) [out = -10, in = 190] to (botm_3);
+		\draw[wind, shorten <= 0 pt](botm_3) [out = 10, in = 190] to (botm_4);
+		\draw[wind, shorten <= 0 pt](botm_4) [out = 10, in = 180] to (botm_5);
+
+		\coordinate(top_22) at ($(top_2) + (0, \the\wgap)$);
+		\coordinate(top_24) at ($(top_4) + (0, \the\wgap)$);
+		\coordinate(top_25) at ($(top_5) + (-0.2, \the\wgap)$);
+
+		\draw[wind]                 ($(wind_start)+(0, \the\wgap + \the\wgap )$) to [out = 0, in = 190] (top_22);
+		\draw[wind, shorten <= 0 pt](top_22)                                     to [out = 10, in = 170] (top_24);
+		\draw[wind, shorten <= 0 pt](top_24)                                     to [out = -10, in = 180] (top_25);
+
+		\coordinate(botm_22) at ($(botm_2) + (0, -\the\wgap)$);
+		\coordinate(botm_24) at ($(botm_4) + (0, -\the\wgap)$);
+		\coordinate(botm_25) at ($(botm_5) + (-0.2, -\the\wgap)$);
+
+		\draw[wind]($(wind_start)+(0, -\the\wgap - \the\wgap )$) to [out = 0, in = 170] (botm_22);
+		\draw[wind, shorten <= 0 pt](botm_22)                                     to [out = -10, in = 190] (botm_24);
+		\draw[wind, shorten <= 0 pt](botm_24)                                     to [out = 10, in = 180] (botm_25);
+
+		% \draw[rounded corners = 5 pt, draw = gray] 
+		% (wind_start) -- ($(wind_start) + (0.5, 1)$) -- (0, 1.3) -- (1, 1.4) -- (2.5, 1.3) --(4, 1) -- (5.75, 0.5)
+		% -- (6, 0) --
+		% (5.75, -0.5) -- (4, -1) -- (2.5, -1.3) -- (1, -1.4) -- (0, -1.3) -- ($(wind_start) + (0.5, -1)$) -- cycle;
+
+		% \draw[draw = none, pattern = north east lines, pattern color = gray]
+		% (wind_start) -- ($(wind_start) + (0.5, 1)$) -- (0,1.3) -- (1, 1.4) -- (2.5, 1.3) --(4, 1) -- (5.75, 0.5) -- (6, 0) -- (6, 2) -- ($(wind_start) + (0, 2)$) -- cycle;
+
+		% \draw[draw = none, pattern = north east lines, pattern color = gray] 
+		% (wind_start) -- ($(wind_start) + (0.5, -1)$) -- (0, -1.3) -- (1, -1.4) -- (2.5, -1.3) --(4, -1) -- (5.75, -0.5) -- (6, 0)-- (6, -2) -- ($(wind_start) + (0, -2)$) -- cycle;
+
+	\end{tikzpicture}
+	\caption{Hi}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\newcount\scale
+		\advance\scale by 3
+		
+		\newcount\angle
+		\advance\angle by -30
+
+		\draw[scale = \the\scale, rotate = \the\angle] plot file{../airfoils/NACA_0030.dat} -- cycle;
+
+		\draw [ rotate = \the\angle] (0, 0) to coordinate[pos=0] (LE) coordinate[pos=0.5] (mid)  coordinate[pos=1] (TE) (\the\scale, 0);
+		% \node [below left, rotate = \the\angle] at (mid) [yshift = 3 pt] {Chord};
+		\node [below left] at (mid) [yshift = 5 pt] {$c$};
+
+		\draw[dashed, rotate = \the\angle] (LE) -- ++(-3, 0) node (chord){};
+		\draw[pointer] (LE) + (0.5, 1)     -- node[near start, above]{Leading Edge} (LE);
+		\draw[pointer] (\the\scale + 1, -1) -- node[near start, above]{Trailing Edge} (TE);
+
+		\draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt] (-3, 0) to coordinate [pos = 0.99] (wind) node [near start, above]{$V_\infty$} (LE);
+		\pic [draw,<-, "$\alpha$", angle eccentricity=1.5, angle radius = 20 pt] {angle = chord--LE--wind};
+
+		% \draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (-3, -0.3) -- ($(wind)+(0, -0.3)$);
+		% \draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (-3, -0.6) -- ($(wind)+(0, -0.6)$);
+
+
+	\end{tikzpicture}
+	\caption{Hi}
+\end{figure}
 
 \end{document}

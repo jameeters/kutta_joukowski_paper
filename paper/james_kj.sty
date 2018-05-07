@@ -43,6 +43,7 @@
 \newcommand{\tp}{\!+\!} % Tight Plus, tighter kerning. Looks better in some regular expressions.
 
 \newcommand{\C}{\ensuremath{\mathbf{C}}\xspace} % for the complex numbers
+\newcommand{\R}{\ensuremath{\mathbf{R}}\xspace} % for the real numbers
 
 \DeclareMathOperator*{\intt}{int}
 \DeclareMathOperator*{\ext}{ext}
@@ -56,7 +57,7 @@
 \usetikzlibrary{calc,patterns,angles,quotes,decorations.markings}
 \tikzset{
 	pointer/.style={->, >= stealth, shorten <= 7 pt, shorten >= 2 pt},
-	wind/.style={pointer, shorten >= 0 pt, blue, shorten >= 2 pt},
+	wind/.style={pointer, shorten >= 0 pt, shorten >= 2 pt},
 	tangent/.style={
 			decoration={
 				markings,% switch on markings
