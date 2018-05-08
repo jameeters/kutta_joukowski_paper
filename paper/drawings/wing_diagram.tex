@@ -1,0 +1,23 @@
+
+
+\newcount\scale
+\advance\scale by 3
+
+\newcount\angle
+\advance\angle by -30
+
+\draw[scale = \the\scale, rotate = \the\angle] plot file{../airfoils/NACA_0030.dat} -- cycle;
+
+\draw [ rotate = \the\angle] (0, 0) to coordinate[pos=0] (LE) coordinate[pos=0.5] (mid)  coordinate[pos=1] (TE) (\the\scale, 0);
+% \node [below left, rotate = \the\angle] at (mid) [yshift = 3 pt] {Chord};
+\node [below left] at (mid) [yshift = 5 pt] {$c$};
+
+\draw[dashed, rotate = \the\angle] (LE) -- ++(-3, 0) node (chord){};
+\draw[pointer] (LE) + (0.5, 1)     -- node[near start, above]{Leading Edge} (LE);
+\draw[pointer] (\the\scale + 1, -1) -- node[near start, above]{Trailing Edge} (TE);
+
+\draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt] (-3, 0) to coordinate [pos = 0.99] (wind) node [near start, above]{$V_\infty$} (LE);
+\pic [draw,<-, "$\alpha$", angle eccentricity=1.5, angle radius = 20 pt] {angle = chord--LE--wind};
+
+% \draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (-3, -0.3) -- ($(wind)+(0, -0.3)$);
+% \draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (-3, -0.6) -- ($(wind)+(0, -0.6)$);

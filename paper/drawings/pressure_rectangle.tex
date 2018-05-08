@@ -1,0 +1,46 @@
+\newdimen\unit
+\advance\unit by 20 pt
+
+\newdimen\delx
+\advance\delx by 2 \unit
+
+\newdimen\dely
+\advance\dely by \unit
+
+\newdimen\offset
+\advance\offset by 10 pt
+
+\coordinate (se) at (-\the\delx, -\the\dely);
+\coordinate (ne) at (-\the\delx,  \the\dely);
+\coordinate (sw) at (\the\delx,  -\the\dely);
+\coordinate (nw) at (\the\delx,   \the\dely);
+
+\fill (se) circle[radius = 2 pt] node [below left] {$x + iy$};
+% \fill (ne) circle[radius = 2 pt] node [] {};
+% \fill (sw) circle[radius = 2 pt] node [] {};
+% \fill (nw) circle[radius = 2 pt] node [] {};
+
+\draw (se) -- coordinate[pos = 0.5](midl) (ne) ;
+\draw (ne) -- coordinate[pos = 0.5](midt) (nw);
+\draw (nw) -- coordinate[pos = 0.5](midr) (sw);
+\draw (se) -- coordinate[pos = 0.5](midb) (sw);
+
+\node (l) at ($(midt) + (0, \the\offset)$) {$l$};
+\draw[->] (l) to ($(nw) + (0, \the\offset)$);
+\draw[->] (l) to ($(ne) + (0, \the\offset)$);
+
+\node (h) at ($(midr) + (-\the\offset, 0)$) {$h$};
+\draw[->] (h) to ($(nw) + (-\the\offset, 0)$);
+\draw[->] (h) to ($(sw) + (-\the\offset, 0)$);
+
+\newdimen\windstart
+\advance\windstart by -\the\unit
+\advance\windstart by -\the\unit
+
+\draw[wind, thick] ($(midl) + (\the\windstart, 0)$) node [left]{$p(x, y)$} to (midl);
+\draw[wind, thick] ($(midl) + (\the\windstart, \the\offset)$) to ($(midl) + (0, \the\offset)$);
+\draw[wind, thick] ($(midl) + (\the\windstart, -\the\offset)$) to ($(midl) + (0, -\the\offset)$);
+
+\draw[wind, thick] ($(midr) + (-\the\windstart, 0)$) to (midr);
+\draw[wind, thick] ($(midr) + (-\the\windstart, \the\offset)$) to ($(midr) + (0, \the\offset)$);
+\draw[wind, thick] ($(midr) + (-\the\windstart, -\the\offset)$) to ($(midr) + (0, -\the\offset)$);
