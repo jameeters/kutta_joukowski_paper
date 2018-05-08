@@ -124,9 +124,9 @@
 		\]
 		By applying Green's theorem, we find that 
 		\begin{align*}
-			\re \int_\gamma \bar f \ dz &= \iint_{\intt \gamma} \left( \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y} \right) dx\ dy 
+			\re \int_\gamma \bar f \ dz &= \iint_{\intrr \gamma} \left( \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y} \right) dx\ dy 
 			\quad = 0 \quad \text{ when $f$ is irrotational}\\[1 ex]
-			\im \int_\gamma \bar f \ dz &= \iint_{\intt \gamma} \left( \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} \right) dx\ dy 
+			\im \int_\gamma \bar f \ dz &= \iint_{\intr \gamma} \left( \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} \right) dx\ dy 
 			\quad = 0 \quad \text{ when $f$ is sourceless}
 		\end{align*}
 
@@ -325,13 +325,361 @@
 	This is a powerful fact from a computational standpoint.
 	Given a model in a wind tunnel, measuring the wind speed at every point around our model would be work-intensive, and would probably disrupt the flow, leading to inaccurate results.
 	It is easy, on the other hand, to release smoke into the flow, and thereby track the motion of the air and determine the streamlines by careful observation.
-
-	
-
-
-	
-
+	Personally, I think this is a very exciting fact.
 % section streamlines (end)
+
+\section{Forces in Fluid} % (fold)
+\label{sec:forces_in_fluid}
+
+	There are fundamentally two kinds of force exerted upon an object by a fluid flow: \textit{pressure} and \textit{shear stress}.
+	Pressure is the force of the fluid pushing on the surface of the object: it is a force normal to that surface.
+	Shear stress is force tangent to the surface of the object, caused by friction between the object and the fluid.
+	We will be concerned solely with pressure, we assume that our fluid is \textit{inviscid} and therefore incapable of imparting any shear stress.
+	This assumption may seem absurd, but it is pressure that is vital to the production of lift.
+	(Shear stress is vital to the production of drag, so we're living in a nice fantasy world here.)
+
+	Characterizing the pressure exerted by a flow is actually quite simple.
+	Newton gives us a simple formula:
+	\[
+		F = ma
+	\]
+	the force produced is equal to the product of the mass the change in velocity of that mass.
+	We denote the density of a fluid by $\rho$.
+	Note that we are working in two dimensions, meaning that a density is mass per unit \textit{area}, not volume.
+	Similarly, pressure in two dimensions is a force per unit length, rather than per unit area.
+
+
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+			\newdimen\unit
+			\advance\unit by 20 pt
+
+			\newdimen\delx
+			\advance\delx by 2 \unit
+
+			\newdimen\dely
+			\advance\dely by \unit
+
+			\newdimen\offset
+			\advance\offset by 10 pt
+			
+			\coordinate (se) at (-\the\delx, -\the\dely);
+			\coordinate (ne) at (-\the\delx,  \the\dely);
+			\coordinate (sw) at (\the\delx,  -\the\dely);
+			\coordinate (nw) at (\the\delx,   \the\dely);
+
+			\fill (se) circle[radius = 2 pt] node [below left] {$x + iy$};
+			% \fill (ne) circle[radius = 2 pt] node [] {};
+			% \fill (sw) circle[radius = 2 pt] node [] {};
+			% \fill (nw) circle[radius = 2 pt] node [] {};
+
+			\draw (se) -- coordinate[pos = 0.5](midl) (ne) ;
+			\draw (ne) -- coordinate[pos = 0.5](midt) (nw);
+			\draw (nw) -- coordinate[pos = 0.5](midr) (sw);
+			\draw (se) -- coordinate[pos = 0.5](midb) (sw);
+
+			\node (l) at ($(midt) + (0, \the\offset)$) {$l$};
+			\draw[->] (l) to ($(nw) + (0, \the\offset)$);
+			\draw[->] (l) to ($(ne) + (0, \the\offset)$);
+
+			\node (h) at ($(midr) + (-\the\offset, 0)$) {$h$};
+			\draw[->] (h) to ($(nw) + (-\the\offset, 0)$);
+			\draw[->] (h) to ($(sw) + (-\the\offset, 0)$);
+
+			\newdimen\windstart
+			\advance\windstart by -\the\unit
+			\advance\windstart by -\the\unit
+
+			\draw[wind, thick] ($(midl) + (\the\windstart, 0)$) node [left]{$p(x, y)$} to (midl);
+			\draw[wind, thick] ($(midl) + (\the\windstart, \the\offset)$) to ($(midl) + (0, \the\offset)$);
+			\draw[wind, thick] ($(midl) + (\the\windstart, -\the\offset)$) to ($(midl) + (0, -\the\offset)$);
+
+			\draw[wind, thick] ($(midr) + (-\the\windstart, 0)$) to (midr);
+			\draw[wind, thick] ($(midr) + (-\the\windstart, \the\offset)$) to ($(midr) + (0, \the\offset)$);
+			\draw[wind, thick] ($(midr) + (-\the\windstart, -\the\offset)$) to ($(midr) + (0, -\the\offset)$);
+		\end{tikzpicture}
+		\captionsetup{width = 0.5 \textwidth}
+		\caption{
+			A rectangle of fluid.
+			The dimensions $l$ and $h$ are assumed to be very small.
+		}
+		\label{fig:pressure_rectangle}
+	\end{figure}
+
+	Consider a small rectangle of fluid in the flow, such as that shown in Figure~\ref{fig:pressure_rectangle}, and keep in mind that we will be dealing in close approximations, like physicists, rather than absolute truth, like mathematicians.
+	We will derive the force due to pressure on this small rectangle in the horizontal direction.
+	
+	We use denote the total force at the point $(x, y)$ by $p(x, y)$.
+	The total force on the small box, in the horizontal direction is the total force on its left side minus the total force on its right side.
+	For small enough $h$ and $l$, we can model this by:
+	\[
+		h \big( p(x, y) - p(x \tp l, y) \big).
+	\]
+	This gives the pressure on our rectangle, now we must find the corresponding change in momentum.
+
+	The mass of the rectangle of fluid is
+	\[
+		\rho \> lh
+	\]
+	where $\rho$ is the density of the fluid.
+	Recall that we assume our fluid to be incompressible, meaning that $\rho$ is a constant throughout the flow.
+	The acceleration of the fluid, in the horizontal direction, is given by 
+	\[
+		\frac{du}{dt}
+	\]
+	where $t$ is time.
+	But we assume that the flow is in a steady state, so velocity changes only with position.
+	Thus
+	\begin{align*}
+	\frac{du}{dt} &= \frac{\partial u}{\partial x} \frac{dx}{dt} + \frac{\partial u}{\partial y} \frac{dy}{dt} \\
+	\text{But we know that } \frac{dx}{dt} = u \text{ and } \frac{dy}{dt} = v, \text{ thus}\\
+	&= \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v
+	\end{align*}
+	So the change in momentum in this rectangle of fluid is given by
+	\[
+		\rho lh \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right)
+	\]
+
+	Equating this to our expression of force, we obtain:
+	\begin{align*}
+		h \big( p(x, y) - p(x \tp l, y) \big) &= \rho lh \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right)\\
+		\text{divide both sides by $lh$ to obtain}\\
+		\frac{p(x, y) - p(x \tp l, y)}{l} &= \rho \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right) \\
+		\text{and take the limit as $l \to 0$}\\
+		- \frac{\partial p}{\partial x} &= \rho \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right)
+	\end{align*}
+	
+	By identical reasoning, we find that
+	\[
+		- \frac{\partial p}{\partial y} = \rho \left( \frac{\partial v}{\partial x} u + \frac{\partial v}{\partial y} v \right).
+	\]
+	
+	Because our flow is irrotational and sourceless, we know that $u$ and $-v$ satisfy the Cauchy--Riemann equations, meaning that we can reform these forces to obtain expressions dependent only upon $x$ and $y$:
+
+	\begin{align*}
+		\rho \left( \frac{\partial u}{\partial x} u + \frac{\partial v}{\partial x} v \right) + \frac{\partial p}{\partial x} &= 0 \\
+		\intertext{and}
+		\rho \left( \frac{\partial u}{\partial y} u + \frac{\partial v}{\partial y} v \right) + \frac{\partial p}{\partial y} &= 0 \\
+	\end{align*}
+	By integrating each of these we obtain
+	\begin{align*}
+		\frac{1}{2} \rho (u^2 + v^2) + p = A(y) \\
+		\intertext{and}
+		\frac{1}{2} \rho (u^2 + v^2) + p = B(x) \\
+	\end{align*}
+	which gives us functions of only $x$ and $y$.
+	Setting these two equal to each other, we obtain
+	\[
+		\frac{1}{2} (u^2 + v^2) + \frac{1}{\rho} p = \mathrm{const.}
+	\]
+
+	This is the derivation of Bernoulli's law.
+% section forces_in_fluid (end)
+
+\section{Circulation and Lift} % (fold)
+\label{sec:circulation_and_lift}
+
+	\begin{definition}[Circulation]
+		Let $\gamma$, a closed piecewise smooth Jordan curve, be the boundary of an object in a sourceless and irrotational flow. 
+		Then $\bar f  = u - iv$ is analytic in a domain containing $\gamma$.
+		Let $\Gamma$ be a smooth closed Jordan curve such that $\gamma \subset \intr \Gamma$.
+		This is pictured in Figure~\ref{fig:circulation}.
+
+		The \textit{circulation} of $f$ around $\gamma$ is given by:
+		\[
+			c = \int_\Gamma f_\tau \ ds.
+		\]
+	\end{definition}
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+			\newcount\scale
+			\advance\scale by 3
+			
+			\newcount\angle
+			\advance\angle by 0
+
+			\draw[scale = \the\scale, rotate = \the\angle, fill = lightgray] plot file{../airfoils/NACA_0030.dat} -- cycle;
+
+			\draw [draw = none, rotate = \the\angle] (0, 0) to coordinate[pos=0] (LE) coordinate[pos=0.5] (mid)  coordinate[pos=1] (TE) (\the\scale, 0);
+
+			\newcount\wdist
+			\advance\wdist by -2
+
+			\newdimen\wspace
+			\advance\wspace by 2 pt
+
+			\newdimen\wgap
+			\advance\wgap by 10 pt
+
+			\draw[draw = none](\the\wdist, 0) to coordinate [pos = 0] (wind_start) (LE);
+			\draw[draw = none](TE) -- ($(TE) + (-\the\wdist, 0)$);
+
+			\coordinate(top_1) at (0.175\the\scale , 0.4\the\scale);
+			\coordinate(top_2) at ($(top_1) + (0.5, 0.15)$);
+			\coordinate(top_3) at ($(top_2) + (1, -0.075)$);
+			\coordinate(top_4) at ($(top_3) + (1, -0.23)$);
+			\coordinate(top_5) at ($(top_4) + (2.1, -0.09)$);
+
+			\draw[wind]($(wind_start)+(0, \the\wgap )$) to [out = 0, in = 190] (top_1);
+			\draw[wind, shorten <= 0 pt](top_1) [out = 10, in = 190] to (top_2);
+			\draw[wind, shorten <= 0 pt](top_2) [out = 10, in = 170] to (top_3);
+			\draw[wind, shorten <= 0 pt](top_3) [out = -10, in = 170] to (top_4);
+			\draw[wind, shorten <= 0 pt](top_4) [out = -10, in = 180] to (top_5);
+
+
+			\coordinate(botm_1) at (0.175\the\scale , -0.4\the\scale);
+			\coordinate(botm_2) at ($(botm_1) + (0.5, -0.15)$);
+			\coordinate(botm_3) at ($(botm_2) + (1, 0.075)$);
+			\coordinate(botm_4) at ($(botm_3) + (1, 0.23)$);
+			\coordinate(botm_5) at ($(botm_4) + (2.1, 0.09)$);
+
+			\draw[wind]($(wind_start)+(0, -\the\wgap )$) to [out = 0, in = 170] (botm_1);
+			\draw[wind, shorten <= 0 pt](botm_1) [out = -10, in = 170] to (botm_2);
+			\draw[wind, shorten <= 0 pt](botm_2) [out = -10, in = 190] to (botm_3);
+			\draw[wind, shorten <= 0 pt](botm_3) [out = 10, in = 190] to (botm_4);
+			\draw[wind, shorten <= 0 pt](botm_4) [out = 10, in = 180] to (botm_5);
+
+			\coordinate(top_22) at ($(top_2) + (0, \the\wgap)$);
+			\coordinate(top_24) at ($(top_4) + (0, \the\wgap)$);
+			\coordinate(top_25) at ($(top_5) + (-0.2, \the\wgap)$);
+
+			\draw[wind]                 ($(wind_start)+(0, \the\wgap + \the\wgap )$) to [out = 0, in = 190] (top_22);
+			\draw[wind, shorten <= 0 pt](top_22)                                     to [out = 10, in = 170] (top_24);
+			\draw[wind, shorten <= 0 pt](top_24)                                     to [out = -10, in = 180] (top_25);
+
+			\coordinate(botm_22) at ($(botm_2) + (0, -\the\wgap)$);
+			\coordinate(botm_24) at ($(botm_4) + (0, -\the\wgap)$);
+			\coordinate(botm_25) at ($(botm_5) + (-0.2, -\the\wgap)$);
+
+			\draw[wind]($(wind_start)+(0, -\the\wgap - \the\wgap )$) to [out = 0, in = 170] (botm_22);
+			\draw[wind, shorten <= 0 pt](botm_22)                                     to [out = -10, in = 190] (botm_24);
+			\draw[wind, shorten <= 0 pt](botm_24)                                     to [out = 10, in = 180] (botm_25);
+
+			\node at (TE) [right]{$\gamma$};
+
+			\draw (mid) ellipse (90 pt and 30 pt);
+			\node at ($(mid)+(50pt, 34pt)$) {$\Gamma$};
+
+		\end{tikzpicture}
+		\captionsetup{width = 0.5 \textwidth}
+		\caption{
+			placeholder.
+		}
+		\label{fig:circulation}
+	\end{figure}
+
+	\begin{remark}
+		We that 
+		\[
+			c = \re \int_\Gamma \bar f(z) \ dz
+		\]
+		and that because $\bar f$ is analytic, this integral does not depend on the choice of $\Gamma$, only on the flow (and by extension $\gamma$).
+
+		Because $\gamma$ must be a streamline of the flow, we know that there is no flow normal to it:
+		\[
+			0 = \int_\gamma f_n \ ds = \im \int_\gamma \bar f(z) \ dz
+		\]
+		Then because $\bar f$ is analytic, 
+		\[
+			0 = \int_\Gamma \bar f (z)\ dz
+		\]
+		for any closed $\Gamma$ drawn around $\gamma$.
+	\end{remark}
+
+	\begin{definition}[Freestream]
+		Imagining an object in a flow, it is natural to imagine that far before and far after it encounters the object, the flow is in some uniform state.
+		We formalize this idea in the concept of a \textit{freestream}, denoted $f_\infty$
+		\[
+			f_\infty = \lim_{|z| \to \infty} f(z)
+		\]
+	\end{definition}
+
+	\begin{remark}
+		In terms of the physics of flight, the assumption of a uniform freestream is less outlandish than it may seem at first glance.
+		Anyone who's flight has been canceled for a thunderstorm should be able to attest to the fact that aircraft tend to avoid flying into areas with in which the flow far ahead of the plane cannot be assumed to be uniform.
+	\end{remark}
+
+	We now have all the information we need to prove the following:
+
+	\begin{theorem}(Kutta--Joukowski)
+		Let $\gamma$ be a closed piecewise smooth Jordan curve forming the boundary of an object in a flow.
+		Let the flow have freestream velocity given by $f_\infty = u_\infty + i v_\infty$.
+		Assume that the flow is sourceless and irrotational in the domain exterior to $\gamma$.
+
+		If $f_\infty$ is real, then the vertical force on $\gamma$ is given by $-\rho c f_\infty$.
+	\end{theorem}
+	\begin{proof}
+		We know by Bernoulli's law that 
+		\[
+			p + \frac{1}{2} \rho |f|^2
+		\]
+		is constant along any streamline of the flow.
+		Thus
+		\[
+			p(z) = A - \frac{1}{2} \rho |f|^2
+		\]
+		where $A$ is a positive real constant.
+
+		Consider some small element $dz = dx + i dy$ of the curve $\gamma$.
+		The pressure on $dz$ is given by 
+		\begin{align*}
+			p i \> dz &= \left(  A i - \frac{1}{2} |f|^2 \right) dz \\
+			&= Ai \> dz - \frac{1}{2} \rho i \> dz
+		\end{align*}
+		
+		Obviously the total force on the object is given by:
+		\begin{align*}
+			D + iL &= \int_\gamma p i \ dz  \\
+			&= \int_\gamma Ai \ dz + \int_\gamma -\frac{1}{2} \rho i |f|^2 \ dz \\
+			&= Ai \int_\gamma () \ dz - \frac{1}{2} \rho i \int_\gamma |f|^2 \ dz \\
+			&= - \frac{1}{2} \rho i \int_\gamma |f|^2 \ dz
+		\end{align*}
+
+		But we know that $f$ must be tangent to $\gamma$ because $\gamma$ is a streamline.
+		Hence
+		\[
+			|f| = \overline{F'(z)} e^{-i \theta}
+		\]
+		where $\theta = \arg dz$.
+		Thus
+		\[
+			|f|^2 = \left( \overline{F'(z)} \right)^2 \> e^{-2i \theta}
+		\]
+		And since $\theta = \arg dz$, it is clear that 
+		\begin{align*}
+			|f|^2 \ dz &= \left( \overline{F'(z)} \right)^2 \> e^{-2i \theta} \> e^{i \theta} \\
+			&= \left( \overline{F'(z)} \right)^2 \> e^{-i \theta} \\
+			&= \left( \overline{F'(z)} \right)^2 \ d \bar z
+		\end{align*}
+		
+		
+		Substituting this into our expression for total force yields
+		\[
+			D + iL = - \frac{1}{2} \rho i \int_\gamma \left( \overline{F'(z)} \right)^2 \ d \bar z  
+		\]
+		Taking the conjugate we obtain
+		\begin{align*}
+			D - iL &= \frac{1}{2} \rho i \int_\gamma \big( F'(z) \big)^2 \ dz \\
+			&= \frac{1}{2} \rho i \int_\gamma \big( \bar f(z) \big)^2 \ dz  
+		\end{align*}
+		Since $\bar f^2$ is an analytic function in $\overline{\extr \gamma}$, the integral is path-independent, and we may replace $\gamma$ by a circle $\Gamma = \{ z \ni |z| = R \}$ enclosing $\gamma$.
+
+		Now we substitute in the Laurent expansion of $\bar f$ to obtain
+		\begin{align*}
+			D - iL &= \frac{1}{2} \rho i \bigintsss_\Gamma \left( \bar f_\infty + \frac{c}{2 \pi i} \frac{1}{z} + \sum_{n=2}^\infty \frac{b_n}{z^n} \right)^2 \ dz \\[1 ex]
+			&= \frac{1}{2} \rho i \> \frac{2 c \bar f_\infty}{2 \pi i} \ \int_\Gamma \frac{1}{z} \ dz \\
+			&= \frac{1}{2} \rho i \> \frac{c \bar f_\infty}{\pi i} \ 2 \pi i \\
+			&= \rho c \bar f_\infty i
+		\end{align*}
+		Thus
+		\[
+			D + iL = - \rho c f_\infty i
+		\]
+	\end{proof}
+
+% section circulation_and_lift (end)
 
 \clearpage
 \nocite{*}

@@ -4,6 +4,7 @@
 \usepackage{mathtools}
 \usepackage{amssymb}
 \usepackage{bm}
+\usepackage{bigints}
 
 \usepackage{xspace}
 \usepackage{verbatim}
@@ -45,8 +46,8 @@
 \newcommand{\C}{\ensuremath{\mathbf{C}}\xspace} % for the complex numbers
 \newcommand{\R}{\ensuremath{\mathbf{R}}\xspace} % for the real numbers
 
-\DeclareMathOperator*{\intt}{int}
-\DeclareMathOperator*{\ext}{ext}
+\DeclareMathOperator*{\intr}{int}
+\DeclareMathOperator*{\extr}{ext}
 
 
 \DeclareMathOperator*{\re}{Re}
@@ -58,6 +59,7 @@
 \tikzset{
 	pointer/.style={->, >= stealth, shorten <= 7 pt, shorten >= 2 pt},
 	wind/.style={pointer, shorten >= 0 pt, shorten >= 2 pt},
+	point/.style={circle, fill, inner sep = 1 pt},
 	tangent/.style={
 			decoration={
 				markings,% switch on markings
