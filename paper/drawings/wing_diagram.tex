@@ -16,7 +16,7 @@
 \draw[pointer] (LE) + (0.5, 1)     -- node[near start, above]{Leading Edge} (LE);
 \draw[pointer] (\the\scale + 1, -1) -- node[near start, above]{Trailing Edge} (TE);
 
-\draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt] (-3, 0) to coordinate [pos = 0.99] (wind) node [near start, above]{$V_\infty$} (LE);
+\draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt] (-3, 0) to coordinate [pos = 0.99] (wind) node [near start, above]{$f_\infty$} (LE);
 \pic [draw,<-, "$\alpha$", angle eccentricity=1.5, angle radius = 20 pt] {angle = chord--LE--wind};
 
 % \draw[pointer, thick, shorten >= 0 pt, blue, shorten >= 2 pt, in=180] (-3, -0.3) -- ($(wind)+(0, -0.3)$);
