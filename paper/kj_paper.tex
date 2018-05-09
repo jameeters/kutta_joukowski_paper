@@ -126,6 +126,8 @@
 			&= \int_\gamma f_\tau \ ds + i \int_\gamma f_n \ ds
 		\end{align*}
 
+		\clearpage
+
 		So we know that 
 		\begin{align*}
 			\re \int_\gamma \bar f \ dz &= 0 \quad \text{ when $f$ is irrotational}\\
@@ -146,7 +148,7 @@
 			\intertext{and}
 			\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} &= 0 \implies \frac{\partial u}{\partial x} = - \frac{\partial v}{\partial y} & &\text{when $f$ is sourceless.} \\
 		\end{align*}
-		Thus $\bar f$ satisfies the Cauchy--Riemann equations in simply connected subdomains $G$.
+		Thus $\bar f$ satisfies the Cauchy--Riemann equations in simply connected subdomains of $G$.
 	\end{proof}
 
 	Since $\bar f$ is an analytic function, we know by the fundamental theorem of calculus that it must be the derivative of some analytic function.
@@ -182,7 +184,7 @@
 		\begin{align*}
 			d \phi &= u\> dx + v\> dy \\
 			\intertext{and}
-			d \psi &= -v\> dx + u\> dy
+			d \psi &= -v\> dx + u\> dy.
 		\end{align*}
 		This implies the following:
 		\begin{alignat*}{2}
@@ -434,7 +436,7 @@
 
 	\begin{definition}[Freestream]
 		Imagining an object in a flow, it is natural to imagine that far before and far after it encounters the object, the flow is in some uniform state.
-		We formalize this idea in the concept of a \textit{freestream}, denoted $f_\infty$
+		We formalize this idea in the concept of a \textit{freestream}, denoted $f_\infty$, given by
 		\[
 			f_\infty = u_\infty + i v_\infty \lim_{|z| \to \infty} f(z)
 		\]
@@ -528,7 +530,7 @@
 		\end{align*}
 		Thus
 		\[
-			D + iL = - \rho c f_\infty i
+			D + iL = - \rho c f_\infty i.
 		\]
 	\end{proof}
 % section circulation_and_lift (end)
