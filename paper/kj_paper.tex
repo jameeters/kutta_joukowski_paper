@@ -39,15 +39,25 @@
 	In terms of aerodynamics, this is equivalent to a restriction to subsonic speed regimes.
 
 	\begin{definition}[Flow]
-		A \textit{flow} is described by a function $f = u + iv$, which gives the velocity (speed and direction) of a particle of fluid at each point in the plane.
-		If $z = x + iy$, then $u(x, y)$ gives the speed of a particle in the x-direction, or along the real axis, at point $z$, and $v(x, y)$ gives its speed in the y-direction (or along the imaginary axis).
+		A \textit{flow} is described by a function $f = u + iv$, which gives the velocity (speed and direction) of a particle at each point in the plane.
+		If $z = x + iy$, then $u(x, y)$ gives the speed with respect to the real axis of a particle in the at point $z$, and $v(x, y)$ gives its speed in the along the imaginary axis \footcite{fisher}{84--85}.
 	\end{definition}
 
 	\paragraph*{Curves and Flows}
 	Now we will introduce a framework for the discussion of curves immersed in the flow.
-	Let $\gamma$ be a piecewise smooth Jordan curve of length $l$ described by $\gamma = \{ z(s) \mid z(s) = x(s) + i y(s), \ 0 \leq s \leq l \}$.
-	Then the number $\tau(s) = z'(s) = \frac{dx}{ds} + i \frac{dy}{ds}$ is of unit modulus and tangent to $\gamma$ at $z(s)$.
-	The number $n(s) = \frac{1}{i} z'(s) = \frac{dy}{ds} - i \frac{dx}{ds}$ is of unit modulus and normal to $\gamma$ at $z(s)$.
+	Let $\gamma$ be a piecewise smooth Jordan curve of length $l$ described by
+	\[
+		\gamma = \{ z(s) \mid z(s) = x(s) + i y(s), \ 0 \leq s \leq l \}.
+	\]
+	Then the number 
+	\[
+		\tau(s) = z'(s) = \frac{dx}{ds} + i \frac{dy}{ds}
+	\]
+	is of unit modulus and tangent to $\gamma$ at $z(s)$, while
+	\[
+		n(s) = \frac{1}{i} z'(s) = \frac{dy}{ds} - i \frac{dx}{ds}
+	\]
+	is normal to $\gamma$ at $z(s)$.
 
 	Now we can describe the components of $f$ tangent and normal to $\gamma$:
 	\[
@@ -57,8 +67,7 @@
 	\[
 		f_n = -v \frac{dx}{ds} + u \frac{dy}{ds}
 	\]
-	gives the component of the flow normal to $\gamma$.
-	See Figure~\ref{fig:flow_tangent_and_normal}
+	gives the component of the flow normal to $\gamma$ \footcite{silverman}{228--229}.
 
 	\begin{figure}[H]
 		\centering
@@ -86,7 +95,7 @@
 		\[
 			\int_\gamma f_n(z) \ ds = 0
 		\]
-		for all $\gamma$ in $G$.
+		for all $\gamma$ in $G$ \footcite{fisher}{85}.
 	\end{definition}
 
 	\begin{definition}[Irrotational]
@@ -96,18 +105,19 @@
 		\[
 			\int_\gamma f_\tau \ ds = 0
 		\]
-		for all $\gamma$ in $G$.
-		That is, there is no net movement of fluid along the edge of any closed curve in $G$.
+		for all piecewise smooth and closed $\gamma$ in $G$.
+		That is, there is no net movement of fluid along the edge of any closed curve in $G$ \footcite{fisher}{85}.
 	\end{definition}
 
 
 	\begin{theorem}
 		Let a flow $f$ be sourceless and irrotational on a domain $G$.
-		Then the conjugate $\bar f$ of this flow is analytic on $G$.
+		Then the conjugate $\bar f$ of this flow is analytic on every simply connected subdomain of $G$.
 	\end{theorem}
 	\begin{proof}
+		Adapted from Silverman \footcite{silverman}{229} and Fisher \footcite{fisher}{86--87}.
 		Now consider the conjugate of the flow function: $\bar f = u - i v$.
-		For any curve $\gamma$, 
+		For any curve $\gamma$,
 		\begin{align*}
 			\int_\gamma \bar f \ dz &= \int_\gamma (u - iv) (dx + i dy) \\
 			&= \int_\gamma u\> dx + v\> dy \ + \ i \! \int_\gamma -v \> dx + u \> dy\\
@@ -115,16 +125,14 @@
 		\end{align*}
 
 		So we know that 
-		\[
-			\re \int_\gamma \bar f \ dz = 0 \text{ when $f$ is irrotational}
-		\]
-		and
-		\[
-			\im \int_\gamma \bar f \ dz = 0 \text{ when $f$ is sourceless}
-		\]
+		\begin{align*}
+			\re \int_\gamma \bar f \ dz &= 0 \quad \text{ when $f$ is irrotational}\\
+			\intertext{and}
+			\im \int_\gamma \bar f \ dz &= 0 \quad \text{ when $f$ is sourceless.}
+		\end{align*}
 		By applying Green's theorem, we find that 
 		\begin{align*}
-			\re \int_\gamma \bar f \ dz &= \iint_{\intrr \gamma} \left( \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y} \right) dx\ dy 
+			\re \int_\gamma \bar f \ dz &= \iint_{\intr \gamma} \left( \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y} \right) dx\ dy 
 			\quad = 0 \quad \text{ when $f$ is irrotational}\\[1 ex]
 			\im \int_\gamma \bar f \ dz &= \iint_{\intr \gamma} \left( \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} \right) dx\ dy 
 			\quad = 0 \quad \text{ when $f$ is sourceless}
@@ -133,10 +141,10 @@
 		Thus we know that on the interior of every $\gamma$, 
 		\begin{align*}
 			\frac{\partial u}{\partial y} - \frac{\partial v}{\partial x} &= 0 \implies \frac{\partial u}{\partial x} = \frac{\partial v}{\partial y} & &\text{when $f$ is irrotational} \\
-			\text{and}\hspace{5 em}&\\
-			\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} &= 0 \implies \frac{\partial u}{\partial x} = - \frac{\partial v}{\partial y} & &\text{when $f$ is sourceless} \\
+			\intertext{and}
+			\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} &= 0 \implies \frac{\partial u}{\partial x} = - \frac{\partial v}{\partial y} & &\text{when $f$ is sourceless.} \\
 		\end{align*}
-		Thus $\bar f$ satisfies the Cauchy--Riemann equations in $G$.
+		Thus $\bar f$ satisfies the Cauchy--Riemann equations in simply connected subdomains $G$.
 	\end{proof}
 
 	Since $\bar f$ is an analytic function, we know by the fundamental theorem of calculus that it must be the derivative of some analytic function.
@@ -151,28 +159,29 @@
 		Let $f$ be a sourceless and irrotational flow in a simply connected domain $G$.
 		The \textit{complex potential} of the flow is the function $F$ such that:
 		\[
-			F'(z) = \bar f(z) \qquad \text{or} \qquad F(z) = \int_{z_0} ^z \bar f \ ds
+			F'(z) = \bar f(z) \qquad \text{or} \qquad F(z) = \int_\gamma  \bar f \ ds
 		\]
-		where $z_0$ is some fixed point in $G$.
+		where $\gamma$ is any closed piecewise smooth Jordan curve in $G$ \footcite{silverman}{230}.
 	\end{definition}
 
 	\begin{theorem}
 		Given a sourceless and irrotational flow in a domain $G$ there exists a complex potential $F$ satisfying definition~\ref{def:complex_potential}.
 	\end{theorem}
 	\begin{proof}
+		Adapted from Silverman \footcite{silverman}{230}.
 		Let $f$ be as specified in definition~\ref{def:complex_potential}.
 
 		We know that the integral
 		\[
-			\int_{z_0}^z \bar f \ ds = \int_{z_0}^z u\> dx + v\> dy \ + \ i \! \int_{z_0}^z -v \> dx + u \> dy
+			\int_\gamma \bar f \ ds = \int_\gamma u\> dx + v\> dy \ + \ i \! \int_\gamma -v \> dx + u \> dy
 		\]
 		is independent of path.
 		Thus we know that the differential forms $u\> dx + v\> dy$ and $-v\> dx + u\> dy$ are exact.
 		That is, there exist real functions $\phi$ and $\psi$ of two real variables such that 
 		\begin{align*}
 			d \phi &= u\> dx + v\> dy \\
-			\text{and}\qquad &\\
-			d \psi &= -v\> dx + u\> dy \\
+			\intertext{and}
+			d \psi &= -v\> dx + u\> dy
 		\end{align*}
 		This implies the following:
 		\begin{alignat*}{2}
@@ -205,12 +214,12 @@
 
 	Before we can describe streamlines, we must introduce a simple term:\
 	\begin{definition}[Level Curve]
-		Let $G$ be a domain and let $q$ be a real-valued function on $G$.
+		Let $G$ be a domain and $q$ a real-valued function on $G$.
 		Given a constant $k$, the set 
 		\[
 			\{ z \in G \mid q(z) = k \}
 		\]
-		is called a \textit{level curve} of $q$.
+		is called a \textit{level curve} of $q$ \footcite{fisher}{199}.
 	\end{definition}
 
 	\begin{definition}(Streamlines and Equipotentials)
@@ -252,7 +261,7 @@
 		-v\> dx  + u\> dy &= 0 \\
 		f_n &= 0
 	\end{align*}
-	Thus we find that there cannot be any flow normal to a streamline, implying that along a streamline $f = f_\tau$ the flow is always tangent to a streamline.
+	Thus there cannot be any flow normal to a streamline, implying that along a streamline $f = f_\tau$ the flow is entirely tangent to a streamline.
 
 	By similar reasoning, we may find that the flow is always normal to an equipotential, meaning that equipotentials and streamlines are everywhere orthogonal to each other.
 
@@ -264,7 +273,7 @@
 	This is a powerful fact from a computational standpoint.
 	Given a model in a wind tunnel, measuring the wind speed at every point around our model would be work-intensive, and would probably disrupt the flow, leading to inaccurate results.
 	It is easy, on the other hand, to release smoke into the flow, and thereby track the motion of the air and determine the streamlines by careful observation.
-	Personally, I think this is a very exciting fact.
+	The methods used in practice are considerably more complicated, but they operate on the same principle \footcite{anderson}{247--256}.
 % section streamlines (end)
 
 \section{Forces in Fluid} % (fold)
@@ -272,19 +281,18 @@
 
 	There are fundamentally two kinds of force exerted upon an object by a fluid flow: \textit{pressure} and \textit{shear stress}.
 	Pressure is the force of the fluid pushing on the surface of the object: it is a force normal to that surface.
-	Shear stress is force tangent to the surface of the object, caused by friction between the object and the fluid.
-	We will be concerned solely with pressure, we assume that our fluid is \textit{inviscid} and therefore incapable of imparting any shear stress.
-	This assumption may seem absurd, but it is pressure that is vital to the production of lift.
-	(Shear stress is vital to the production of drag, so we're living in a nice fantasy world here.)
+	Shear stress is force tangent to the surface of the object, caused by friction between the object and the fluid \footcite{anderson}{15}.
+	We will be concerned solely with pressure, we assume that our fluid is \textit{inviscid} and therefore incapable of imparting any shear stress \footcite{motteler}{220}.
 
 	Characterizing the pressure exerted by a flow is actually quite simple.
 	Newton gives us a simple formula:
 	\[
 		F = ma
 	\]
-	the force produced is equal to the product of the mass the change in velocity of that mass.
+	the force exerted by fluid in motion is equal to the change in momentum in the fluid.
 	We denote the density of a fluid by $\rho$.
-	Note that we are working in two dimensions, meaning that a density is mass per unit \textit{area}, not volume.
+	Because we assume the our fluid is incompressible, $\rho$ is constant.
+	Note that we are working in two dimensions, meaning that a density is mass per unit area, not volume.
 	Similarly, pressure in two dimensions is a force per unit length, rather than per unit area.
 
 
@@ -301,11 +309,11 @@
 		\label{fig:pressure_rectangle}
 	\end{figure}
 
-	Consider a small rectangle of fluid in the flow, such as that shown in Figure~\ref{fig:pressure_rectangle}, and keep in mind that we will be dealing in close approximations, like physicists, rather than absolute truth, like mathematicians.
+	Consider a small rectangle of fluid in the flow, such as that shown in Figure~\ref{fig:pressure_rectangle}.
 	We will derive the force due to pressure on this small rectangle in the horizontal direction.
 	
-	We use denote the total force at the point $(x, y)$ by $p(x, y)$.
-	The total force on the small box, in the horizontal direction is the total force on its left side minus the total force on its right side.
+	We use denote the total force at the point $x + iy$ by $p(x, y)$.
+	The total force on the small box is the force on its left side minus the force on its right side.
 	For small enough $h$ and $l$, we can model this by:
 	\[
 		h \big( p(x, y) - p(x \tp l, y) \big).
@@ -314,11 +322,9 @@
 
 	The mass of the rectangle of fluid is
 	\[
-		\rho \> lh
+		\rho \> lh.
 	\]
-	where $\rho$ is the density of the fluid.
-	Recall that we assume our fluid to be incompressible, meaning that $\rho$ is a constant throughout the flow.
-	The acceleration of the fluid, in the horizontal direction, is given by 
+	The acceleration of the fluid is given by 
 	\[
 		\frac{du}{dt}
 	\]
@@ -327,21 +333,21 @@
 	Thus
 	\begin{align*}
 	\frac{du}{dt} &= \frac{\partial u}{\partial x} \frac{dx}{dt} + \frac{\partial u}{\partial y} \frac{dy}{dt} \\
-	\text{But we know that } \frac{dx}{dt} = u \text{ and } \frac{dy}{dt} = v, \text{ thus}\\
-	&= \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v
+	\intertext{But we know that $\displaystyle\frac{dx}{dt} = u$ and $\displaystyle\frac{dy}{dt} = v$, thus}
+	\frac{du}{dt} &= \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v.
 	\end{align*}
 	So the change in momentum in this rectangle of fluid is given by
 	\[
-		\rho lh \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right)
+		\rho lh \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right).
 	\]
 
 	Equating this to our expression of force, we obtain:
 	\begin{align*}
 		h \big( p(x, y) - p(x \tp l, y) \big) &= \rho lh \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right)\\
-		\text{divide both sides by $lh$ to obtain}\\
+		\intertext{divide both sides by $lh$ to obtain}
 		\frac{p(x, y) - p(x \tp l, y)}{l} &= \rho \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right) \\
-		\text{and take the limit as $l \to 0$}\\
-		- \frac{\partial p}{\partial x} &= \rho \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right)
+		\intertext{and take the limit as $l \to 0$}
+		- \frac{\partial p}{\partial x} &= \rho \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right).
 	\end{align*}
 	
 	By identical reasoning, we find that
@@ -349,12 +355,12 @@
 		- \frac{\partial p}{\partial y} = \rho \left( \frac{\partial v}{\partial x} u + \frac{\partial v}{\partial y} v \right).
 	\]
 	
-	Because our flow is irrotational and sourceless, we know that $u$ and $-v$ satisfy the Cauchy--Riemann equations, meaning that we can reform these forces to obtain expressions dependent only upon $x$ and $y$:
+	Because our flow is irrotational and sourceless, we know that $\bar f = u - iv$ satisfies the Cauchy--Riemann equations, meaning that we can reform these forces to obtain expressions dependent only upon $x$ and $y$:
 
 	\begin{align*}
 		\rho \left( \frac{\partial u}{\partial x} u + \frac{\partial v}{\partial x} v \right) + \frac{\partial p}{\partial x} &= 0 \\
 		\intertext{and}
-		\rho \left( \frac{\partial u}{\partial y} u + \frac{\partial v}{\partial y} v \right) + \frac{\partial p}{\partial y} &= 0 \\
+		\rho \left( \frac{\partial u}{\partial y} u + \frac{\partial v}{\partial y} v \right) + \frac{\partial p}{\partial y} &= 0. \\
 	\end{align*}
 	By integrating each of these we obtain
 	\begin{align*}
@@ -367,20 +373,22 @@
 	\[
 		\frac{1}{2} (u^2 + v^2) + \frac{1}{\rho} p = \mathrm{const.}
 	\]
+	And because the fluid is incompressible, we can multiply both sides by $\rho$ to obtain:
+	\[
+		\frac{1}{2} \rho |f|^2 + p = \mathrm{const.}
+	\]
 
-	This is the derivation of Bernoulli's law.
+	This completes the derivation of Bernoulli's law.
 % section forces_in_fluid (end)
 
 \section{Circulation and Lift} % (fold)
 \label{sec:circulation_and_lift}
 
 	\begin{definition}[Circulation]
-		Let $\gamma$, a closed piecewise smooth Jordan curve, be the boundary of an object in a sourceless and irrotational flow. 
+		Let $\gamma$ be a closed piecewise smooth Jordan curve forming the boundary of an object in a sourceless and irrotational flow. 
 		Then $\bar f  = u - iv$ is analytic in a domain containing $\gamma$.
-		Let $\Gamma$ be a smooth closed Jordan curve such that $\gamma \subset \intr \Gamma$.
-		This is pictured in Figure~\ref{fig:circulation}.
-
-		The \textit{circulation} of $f$ around $\gamma$ is given by:
+		Let $\Gamma$ be any smooth closed Jordan curve such that $\gamma \subset \intr \Gamma$, as depicted in Figure~\ref{fig:circulation}.
+		Then the \textit{circulation} of $f$ around $\gamma$ is given by:
 		\[
 			c = \int_\Gamma f_\tau \ ds.
 		\]
@@ -392,13 +400,13 @@
 		\end{tikzpicture}
 		\captionsetup{width = 0.5 \textwidth}
 		\caption{
-			placeholder.
+			The circulation around $\gamma$ is given by integration around $\Gamma$.
 		}
 		\label{fig:circulation}
 	\end{figure}
 
 	\begin{remark}
-		We that 
+		We know that 
 		\[
 			c = \re \int_\Gamma \bar f(z) \ dz
 		\]
@@ -406,68 +414,73 @@
 
 		Because $\gamma$ must be a streamline of the flow, we know that there is no flow normal to it:
 		\[
-			0 = \int_\gamma f_n \ ds = \im \int_\gamma \bar f(z) \ dz
+			0 = \int_\gamma f_n \ ds \ = \ \im \int_\gamma \bar f(z) \ dz.
 		\]
 		Then because $\bar f$ is analytic, 
 		\[
-			0 = \int_\Gamma \bar f (z)\ dz
+			0 = \im \int_\Gamma \bar f (z)\ dz
 		\]
 		for any closed $\Gamma$ drawn around $\gamma$.
+		% The flow is still sourceless.
+		% Explain how the circulation can be nonzero in an irrotational flow.
 	\end{remark}
 
 	\begin{definition}[Freestream]
 		Imagining an object in a flow, it is natural to imagine that far before and far after it encounters the object, the flow is in some uniform state.
 		We formalize this idea in the concept of a \textit{freestream}, denoted $f_\infty$
 		\[
-			f_\infty = \lim_{|z| \to \infty} f(z)
+			f_\infty = u_\infty + i v_\infty \lim_{|z| \to \infty} f(z)
 		\]
+		\footcite{fisher}{254}
 	\end{definition}
 
 	\begin{remark}
-		In terms of the physics of flight, the assumption of a uniform freestream is less outlandish than it may seem at first glance.
-		Anyone who's flight has been canceled for a thunderstorm should be able to attest to the fact that aircraft tend to avoid flying into areas with in which the flow far ahead of the plane cannot be assumed to be uniform.
+		In terms of the physics of flight, the assumption of a uniform freestream should seem quite reasonable.
+		Anyone who's flight has been canceled for a thunderstorm should be able to attest to the fact that aircraft tend to avoid flying into areas with in which the air ahead of the plane cannot be assumed to be uniform.
 	\end{remark}
-
+	% show how a uniform flow => we can have a laurent expansion.
 	We now have all the information we need to prove the following:
 
 	\begin{theorem}(Kutta--Joukowski)
-		Let $\gamma$ be a closed piecewise smooth Jordan curve forming the boundary of an object in a flow.
-		Let the flow have freestream velocity given by $f_\infty = u_\infty + i v_\infty$.
-		Assume that the flow is sourceless and irrotational in the domain exterior to $\gamma$.
-
-		If $f_\infty$ is real, then the vertical force on $\gamma$ is given by $-\rho c f_\infty$.
+		Given an object in a flow with a uniform freestream, we can characterize the lifting force due to pressure on the object in terms of the fluid's density, the freestream velocity, and the circulation around the object.
 	\end{theorem}
 	\begin{proof}
-		We know by Bernoulli's law that 
+		Adapted from Silverman \footcite{silverman}{237--238}.
+		Let $\gamma$ be a closed piecewise smooth Jordan curve forming the boundary of an object in a flow $f$.
+		Let the flow have freestream velocity $f_\infty = u_\infty + i v_\infty$.
+		Assume that the flow is sourceless and irrotational in the domain exterior to $\gamma$.
+
+		We know by Bernoulli's law that the quantity 
 		\[
 			p + \frac{1}{2} \rho |f|^2
 		\]
-		is constant along any streamline of the flow.
+		is constant along a streamline.
 		Thus
 		\[
 			p(z) = A - \frac{1}{2} \rho |f|^2
 		\]
 		where $A$ is a positive real constant.
 
-		Consider some small element $dz = dx + i dy$ of the curve $\gamma$.
+		Consider some small segment $dz = dx + i dy$ of $\gamma$.
 		The pressure on $dz$ is given by 
 		\begin{align*}
 			p i \> dz &= \left(  A i - \frac{1}{2} |f|^2 \right) dz \\
-			&= Ai \> dz - \frac{1}{2} \rho i \> dz
+			&= Ai \> dz - \frac{1}{2} \rho i \> dz.
 		\end{align*}
 		
-		Obviously the total force on the object is given by:
+		Let $D + iL$ represent the total force on the object, with $D$ (as in drag) in the horizontal and $L$ (as in lift) in the vertical.
+		Obviously the total force on the object is given by the integral around the boundary of the force at each point:
 		\begin{align*}
 			D + iL &= \int_\gamma p i \ dz  \\
 			&= \int_\gamma Ai \ dz + \int_\gamma -\frac{1}{2} \rho i |f|^2 \ dz \\
-			&= Ai \int_\gamma () \ dz - \frac{1}{2} \rho i \int_\gamma |f|^2 \ dz \\
+			&= Ai \int_\gamma 1 \ dz - \frac{1}{2} \rho i \int_\gamma |f|^2 \ dz \\
 			&= - \frac{1}{2} \rho i \int_\gamma |f|^2 \ dz
 		\end{align*}
 
-		But we know that $f$ must be tangent to $\gamma$ because $\gamma$ is a streamline.
+		But we know that $f$ must be tangent to each $dz$ because $\gamma$ is a streamline.
 		Hence
 		\[
-			|f| = \overline{F'(z)} e^{-i \theta}
+			|f| = \overline{F'(z)}\> e^{-i \theta}
 		\]
 		where $\theta = \arg dz$.
 		Thus
@@ -478,25 +491,25 @@
 		\begin{align*}
 			|f|^2 \ dz &= \left( \overline{F'(z)} \right)^2 \> e^{-2i \theta} \> e^{i \theta} \\
 			&= \left( \overline{F'(z)} \right)^2 \> e^{-i \theta} \\
-			&= \left( \overline{F'(z)} \right)^2 \ d \bar z
+			&= \left( \overline{F'(z)} \right)^2 \ d \bar z.
 		\end{align*}
 		
 		
 		Substituting this into our expression for total force yields
 		\[
-			D + iL = - \frac{1}{2} \rho i \int_\gamma \left( \overline{F'(z)} \right)^2 \ d \bar z  
+			D + iL = - \frac{1}{2} \rho i \int_\gamma \left( \overline{F'(z)} \right)^2 \ d \bar z.
 		\]
 		Taking the conjugate we obtain
 		\begin{align*}
 			D - iL &= \frac{1}{2} \rho i \int_\gamma \big( F'(z) \big)^2 \ dz \\
 			&= \frac{1}{2} \rho i \int_\gamma \big( \bar f(z) \big)^2 \ dz  
 		\end{align*}
-		Since $\bar f^2$ is an analytic function in $\overline{\extr \gamma}$, the integral is path-independent, and we may replace $\gamma$ by a circle $\Gamma = \{ z \ni |z| = R \}$ enclosing $\gamma$.
+		Since $\bar f^2$ is an analytic function in $\overline{\extr \gamma}$, the integral is path-independent, and we may replace $\gamma$ by a circle $\Gamma = \{ z \bm{\mid} |z| = R \}$ enclosing $\gamma$.
 
 		Now we substitute in the Laurent expansion of $\bar f$ to obtain
 		\begin{align*}
 			D - iL &= \frac{1}{2} \rho i \bigintsss_\Gamma \left( \bar f_\infty + \frac{c}{2 \pi i} \frac{1}{z} + \sum_{n=2}^\infty \frac{b_n}{z^n} \right)^2 \ dz \\[1 ex]
-			&= \frac{1}{2} \rho i \> \frac{2 c \bar f_\infty}{2 \pi i} \ \int_\Gamma \frac{1}{z} \ dz \\
+			&= \frac{1}{2} \rho i \> \frac{2 c \bar f_\infty}{2 \pi i} \ \bigintsss_\Gamma \frac{1}{z} \ dz \\
 			&= \frac{1}{2} \rho i \> \frac{c \bar f_\infty}{\pi i} \ 2 \pi i \\
 			&= \rho c \bar f_\infty i
 		\end{align*}

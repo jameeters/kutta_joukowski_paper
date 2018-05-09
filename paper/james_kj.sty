@@ -22,16 +22,15 @@
 
 
 %% Ams Theorem setup
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[]
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}
+\newtheorem{definition}[theorem]{Definition}
 \newtheorem*{example}{Example}
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
 
-\theoremstyle{plain}
-\newtheorem{theorem}{Theorem}
-\newtheorem{claim}{Claim}
 
 % Miscellaneous Utilities
 
@@ -45,6 +44,7 @@
 
 \newcommand{\C}{\ensuremath{\mathbf{C}}\xspace} % for the complex numbers
 \newcommand{\R}{\ensuremath{\mathbf{R}}\xspace} % for the real numbers
+\newcommand{\footcite}[2]{\cite[pg.~{#2}]{#1}}
 
 \DeclareMathOperator*{\intr}{int}
 \DeclareMathOperator*{\extr}{ext}
