@@ -222,24 +222,27 @@
 		is called a \textit{level curve} of $q$ \footcite{fisher}{199}.
 	\end{definition}
 
-	\begin{definition}(Streamlines and Equipotentials)
-		Let $F = \phi + i \psi$ be a complex potential.
-
-		The function $\phi$ is referred to as the \textit{velocity potential}, because its partial derivatives give the horizontal and vertical components of the flow function.
-		The level curves 
-		\[
-			\{ z \in G \mid \phi(z) = \mathrm{const.} \}
-		\]
-		are called equipotentials, because they describe lines of constant potential velocity.
-
-		The function $\psi$ is called the \textit{stream function} because it describes the paths followed by particles in the flow.
-		The level curves 
+	\begin{definition}[Streamlines]
+		Let $F = \phi + i \psi$ be a complex potential analytic on $G$.
+		The level curves
 		\[
 			\{ z \in G \mid \psi(z) = \mathrm{const.} \}
 		\]
-		are called \textit{streamlines} of the flow $f$.
-		These lines give the possible paths for a particle in the flow.
+		are called \textit{streamlines}.
+		Clearly, if $\psi$ is constant along some line, then its derivative must be uniformly zero along that line.
+		Thus, along a level curve,
+		\begin{align*}
+			\frac{\partial \psi}{\partial x}dx + \frac{\partial \psi}{\partial y}dy &= 0 \\
+			-v\> dx  + u\> dy &= 0 \\
+			f_n &= 0.
+		\end{align*}
+		So there is no flow normal to the curve, implying that the flow is entirely tangential to a streamline \footcite{silverman}{231}.
 	\end{definition}
+	\begin{remark}
+		For obvious reasons, $\psi$ is referred to as the \textit{stream function.}
+		Streamlines describe the paths followed by particles in a flow. 
+		Figure~\ref{fig:streamlines} shows the streamlines around an object in a flow.
+	\end{remark}
 
 	\begin{figure}[H]
 		\centering
@@ -254,21 +257,15 @@
 		\label{fig:streamlines}
 	\end{figure}
 
-	Since a streamline is a curve along which $\psi$ is constant, $\psi'$ must be uniformly zero along a streamline.
-	That is, along a streamline:
-	\begin{align*}
-		\frac{\partial \psi}{\partial x}dx + \frac{\partial \psi}{\partial y}dy &= 0 \\
-		-v\> dx  + u\> dy &= 0 \\
-		f_n &= 0
-	\end{align*}
-	Thus there cannot be any flow normal to a streamline, implying that along a streamline $f = f_\tau$ the flow is entirely tangent to a streamline.
-
-	By similar reasoning, we may find that the flow is always normal to an equipotential, meaning that equipotentials and streamlines are everywhere orthogonal to each other.
+	The function $\phi$ is less interesting to us.
+	It is called the \textit{velocity potential} function because its partial derivatives give the real and imaginary parts of the flow function.
+	The level curves of the velocity potential function are called \textit{equipotentials}.
+	The the flow $f$ is everywhere normal to an equipotential, meaning that streamlines and equipotentials form a web of orthogonal curves.
 
 	Consider the object in the flow in Figure~\ref{fig:streamlines}.
 	Clearly its boundary is impermeable to the fluid --- there is no flow across its boundary at any point.
 	Thus the boundary of this object must be a streamline of the flow.
-	This means that given the streamlines of a flow, one may find a stream function, and by its conjugate harmonic function, may complete the complex potential whose derivative will give the original flow function.
+	This means that given the streamlines of a flow, one may find a stream function, and by its conjugate harmonic function, may complete the complex potential whose derivative will give the original flow function \footcite{motteler}{226--227}.
 
 	This is a powerful fact from a computational standpoint.
 	Given a model in a wind tunnel, measuring the wind speed at every point around our model would be work-intensive, and would probably disrupt the flow, leading to inaccurate results.
@@ -284,101 +281,106 @@
 	Shear stress is force tangent to the surface of the object, caused by friction between the object and the fluid \footcite{anderson}{15}.
 	We will be concerned solely with pressure, we assume that our fluid is \textit{inviscid} and therefore incapable of imparting any shear stress \footcite{motteler}{220}.
 
-	Characterizing the pressure exerted by a flow is actually quite simple.
-	Newton gives us a simple formula:
-	\[
-		F = ma
-	\]
-	the force exerted by fluid in motion is equal to the change in momentum in the fluid.
-	We denote the density of a fluid by $\rho$.
-	Because we assume the our fluid is incompressible, $\rho$ is constant.
-	Note that we are working in two dimensions, meaning that a density is mass per unit area, not volume.
-	Similarly, pressure in two dimensions is a force per unit length, rather than per unit area.
+	\begin{theorem}[Bernoulli's Law]
+		The pressure at each point in a flow is inversely related to the speed of the flow at that point.
+	\end{theorem}
+	\begin{proof}
+		Characterizing the pressure exerted by a flow is actually quite simple.
+		Newton gives us a simple formula:
+		\[
+			F = ma
+		\]
+		the force exerted by fluid in motion is equal to the change in momentum in the fluid.
+		We denote the density of a fluid by $\rho$.
+		Because we assume the our fluid is incompressible, $\rho$ is constant.
+		Note that we are working in two dimensions, meaning that a density is mass per unit area, not volume.
+		Similarly, pressure in two dimensions is a force per unit length, rather than per unit area.
 
 
-	\begin{figure}[H]
-		\centering
-		\begin{tikzpicture}
-			\input{drawings/pressure_rectangle}
-		\end{tikzpicture}
-		\captionsetup{width = 0.5 \textwidth}
-		\caption{
-			A rectangle of fluid.
-			The dimensions $l$ and $h$ are assumed to be very small.
-		}
-		\label{fig:pressure_rectangle}
-	\end{figure}
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}
+				\input{drawings/pressure_rectangle}
+			\end{tikzpicture}
+			\captionsetup{width = 0.5 \textwidth}
+			\caption{
+				A rectangle of fluid.
+				The dimensions $l$ and $h$ are assumed to be very small.
+			}
+			\label{fig:pressure_rectangle}
+		\end{figure}
 
-	Consider a small rectangle of fluid in the flow, such as that shown in Figure~\ref{fig:pressure_rectangle}.
-	We will derive the force due to pressure on this small rectangle in the horizontal direction.
-	
-	We use denote the total force at the point $x + iy$ by $p(x, y)$.
-	The total force on the small box is the force on its left side minus the force on its right side.
-	For small enough $h$ and $l$, we can model this by:
-	\[
-		h \big( p(x, y) - p(x \tp l, y) \big).
-	\]
-	This gives the pressure on our rectangle, now we must find the corresponding change in momentum.
+		Consider a small rectangle of fluid in the flow, such as that shown in Figure~\ref{fig:pressure_rectangle}.
+		We will derive the force due to pressure on this small rectangle in the horizontal direction.
+		
+		We use denote the total force at the point $x + iy$ by $p(x, y)$.
+		The total force on the small box is the force on its left side minus the force on its right side.
+		For small enough $h$ and $l$, we can model this by:
+		\[
+			h \big( p(x, y) - p(x \tp l, y) \big).
+		\]
+		This gives the pressure on our rectangle, now we must find the corresponding change in momentum.
 
-	The mass of the rectangle of fluid is
-	\[
-		\rho \> lh.
-	\]
-	The acceleration of the fluid is given by 
-	\[
-		\frac{du}{dt}
-	\]
-	where $t$ is time.
-	But we assume that the flow is in a steady state, so velocity changes only with position.
-	Thus
-	\begin{align*}
-	\frac{du}{dt} &= \frac{\partial u}{\partial x} \frac{dx}{dt} + \frac{\partial u}{\partial y} \frac{dy}{dt} \\
-	\intertext{But we know that $\displaystyle\frac{dx}{dt} = u$ and $\displaystyle\frac{dy}{dt} = v$, thus}
-	\frac{du}{dt} &= \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v.
-	\end{align*}
-	So the change in momentum in this rectangle of fluid is given by
-	\[
-		\rho lh \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right).
-	\]
+		The mass of the rectangle of fluid is
+		\[
+			\rho \> lh.
+		\]
+		The acceleration of the fluid is given by 
+		\[
+			\frac{du}{dt}
+		\]
+		where $t$ is time.
+		But we assume that the flow is in a steady state, so velocity changes only with position.
+		Thus
+		\begin{align*}
+		\frac{du}{dt} &= \frac{\partial u}{\partial x} \frac{dx}{dt} + \frac{\partial u}{\partial y} \frac{dy}{dt} \\
+		\intertext{But we know that $\displaystyle\frac{dx}{dt} = u$ and $\displaystyle\frac{dy}{dt} = v$, thus}
+		\frac{du}{dt} &= \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v.
+		\end{align*}
+		So the change in momentum in this rectangle of fluid is given by
+		\[
+			\rho lh \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right).
+		\]
 
-	Equating this to our expression of force, we obtain:
-	\begin{align*}
-		h \big( p(x, y) - p(x \tp l, y) \big) &= \rho lh \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right)\\
-		\intertext{divide both sides by $lh$ to obtain}
-		\frac{p(x, y) - p(x \tp l, y)}{l} &= \rho \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right) \\
-		\intertext{and take the limit as $l \to 0$}
-		- \frac{\partial p}{\partial x} &= \rho \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right).
-	\end{align*}
-	
-	By identical reasoning, we find that
-	\[
-		- \frac{\partial p}{\partial y} = \rho \left( \frac{\partial v}{\partial x} u + \frac{\partial v}{\partial y} v \right).
-	\]
-	
-	Because our flow is irrotational and sourceless, we know that $\bar f = u - iv$ satisfies the Cauchy--Riemann equations, meaning that we can reform these forces to obtain expressions dependent only upon $x$ and $y$:
+		Equating this to our expression of force, we obtain:
+		\begin{align*}
+			h \big( p(x, y) - p(x \tp l, y) \big) &= \rho lh \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right)\\
+			\intertext{divide both sides by $lh$ to obtain}
+			\frac{p(x, y) - p(x \tp l, y)}{l} &= \rho \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right) \\
+			\intertext{and take the limit as $l \to 0$}
+			- \frac{\partial p}{\partial x} &= \rho \left( \frac{\partial u}{\partial x} u + \frac{\partial u}{\partial y} v \right).
+		\end{align*}
+		
+		By identical reasoning, we find that
+		\[
+			- \frac{\partial p}{\partial y} = \rho \left( \frac{\partial v}{\partial x} u + \frac{\partial v}{\partial y} v \right).
+		\]
+		
+		Because our flow is irrotational and sourceless, we know that $\bar f = u - iv$ satisfies the Cauchy--Riemann equations, meaning that we can reform these forces to obtain expressions dependent only upon $x$ and $y$:
 
-	\begin{align*}
-		\rho \left( \frac{\partial u}{\partial x} u + \frac{\partial v}{\partial x} v \right) + \frac{\partial p}{\partial x} &= 0 \\
-		\intertext{and}
-		\rho \left( \frac{\partial u}{\partial y} u + \frac{\partial v}{\partial y} v \right) + \frac{\partial p}{\partial y} &= 0. \\
-	\end{align*}
-	By integrating each of these we obtain
-	\begin{align*}
-		\frac{1}{2} \rho (u^2 + v^2) + p = A(y) \\
-		\intertext{and}
-		\frac{1}{2} \rho (u^2 + v^2) + p = B(x) \\
-	\end{align*}
-	which gives us functions of only $x$ and $y$.
-	Setting these two equal to each other, we obtain
-	\[
-		\frac{1}{2} (u^2 + v^2) + \frac{1}{\rho} p = \mathrm{const.}
-	\]
-	And because the fluid is incompressible, we can multiply both sides by $\rho$ to obtain:
-	\[
-		\frac{1}{2} \rho |f|^2 + p = \mathrm{const.}
-	\]
+		\begin{align*}
+			\rho \left( \frac{\partial u}{\partial x} u + \frac{\partial v}{\partial x} v \right) + \frac{\partial p}{\partial x} &= 0 \\
+			\intertext{and}
+			\rho \left( \frac{\partial u}{\partial y} u + \frac{\partial v}{\partial y} v \right) + \frac{\partial p}{\partial y} &= 0. \\
+		\end{align*}
+		By integrating each of these we obtain
+		\begin{align*}
+			\frac{1}{2} \rho (u^2 + v^2) + p = A(y) \\
+			\intertext{and}
+			\frac{1}{2} \rho (u^2 + v^2) + p = B(x) \\
+		\end{align*}
+		which gives us functions of only $x$ and $y$.
+		Setting these two equal to each other, we obtain
+		\[
+			\frac{1}{2} (u^2 + v^2) + \frac{1}{\rho} p = \mathrm{const.}
+		\]
+		And because the fluid is incompressible, we can multiply both sides by $\rho$ to obtain:
+		\[
+			\frac{1}{2} \rho |f|^2 + p = \mathrm{const.}
+		\]
 
-	This completes the derivation of Bernoulli's law.
+		This completes the derivation of Bernoulli's law.
+	\end{proof}
 % section forces_in_fluid (end)
 
 \section{Circulation and Lift} % (fold)
